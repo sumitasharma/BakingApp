@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-\
 
 public class BakingAppMainLoader extends AsyncTaskLoader<String> {
     private final Context mContext;
