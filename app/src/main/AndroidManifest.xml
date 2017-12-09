@@ -21,10 +21,17 @@
         </activity>
         <activity
             android:name=".BakingAppDetailActivity"
-            android:label="BakingDetails">
+            android:label="Ingredients And Steps to Follow">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BakingAppMainActivity" />
+        </activity>
+        <activity
+            android:name=".BakingAppMediaAndInstructionActivity"
+            android:label="Video and Instruction">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BakingAppDetailActivity" />
         </activity>
     </application>
 
