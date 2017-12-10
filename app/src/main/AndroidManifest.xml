@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -21,18 +22,30 @@
         </activity>
         <activity
             android:name=".BakingAppDetailActivity"
-            android:label="Ingredients And Steps to Follow">
+            android:label="Ingredients And Steps to Follow"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BakingAppMainActivity" />
         </activity>
         <activity
             android:name=".BakingAppMediaAndInstructionActivity"
-            android:label="Video and Instruction">
+            android:label="Video and Instruction"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BakingAppDetailActivity" />
         </activity>
+
+        <receiver android:name=".BakingAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
