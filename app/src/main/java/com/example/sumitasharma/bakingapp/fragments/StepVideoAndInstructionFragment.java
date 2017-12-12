@@ -29,10 +29,10 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
-import static com.example.sumitasharma.bakingapp.BakingAppMediaAndInstructionActivity.STEP_DESCRIPTION;
-import static com.example.sumitasharma.bakingapp.BakingAppMediaAndInstructionActivity.STEP_VIDEO;
 import static com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment.STEPS;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_DESCRIPTION;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 
 
 public class StepVideoAndInstructionFragment extends Fragment {
@@ -73,7 +73,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
             Log.i(TAG, "savedInstanceState in Fragment is null");
             mStep = getArguments().getParcelableArrayList(STEPS);
-            mVideo = getArguments().getString(STEP_VIDEO);
+            //  mVideo = getArguments().getString(STEP_VIDEO);
             mIndex = getArguments().getInt(INDEX_VALUE);
 
         }
@@ -113,7 +113,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
                 }
             });
         }
-        if (!mVideo.isEmpty()) {
+        if (!mStep.get(mIndex).getVideoURL().isEmpty()) {
             Log.i(TAG, "index value in if loop : " + mIndex);
             mVideo = mStep.get(mIndex).getVideoURL();
             initializePlayer();
@@ -130,7 +130,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
         mStepVideoPlayer.setPlayWhenReady(mPlayWhenReady);
         mStepVideoPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
-        Uri uri = Uri.parse(mVideo);
+        Uri uri = Uri.parse(mStep.get(mIndex).getVideoURL());
         MediaSource mediaSource = buildMediaSource(uri);
         mStepVideoPlayer.prepare(mediaSource, true, false);
     }

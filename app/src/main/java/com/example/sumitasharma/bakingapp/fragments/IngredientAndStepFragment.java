@@ -2,7 +2,6 @@ package com.example.sumitasharma.bakingapp.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,8 +22,8 @@ import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
 
-import static com.example.sumitasharma.bakingapp.BakingAppDetailActivity.INGREDIENT;
-import static com.example.sumitasharma.bakingapp.BakingAppDetailActivity.IS_TABLET;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
 
 
 public class IngredientAndStepFragment extends Fragment implements RecipeStepsAdapter.RecipeStepsClickListener {
@@ -38,11 +37,10 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     boolean twoPane;
     int mIndex;
     Activity mActivity;
-    private PassValues mPassValue;
+    onStepClickedListener mCallback;
     private ArrayList<Step> mStep = null;
     private ArrayList<Ingredient> mIngredient = null;
     private Recipe mRecipe = null;
-
 
 
     public IngredientAndStepFragment() {
@@ -55,7 +53,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
 
         View rootView = inflater.inflate(R.layout.recipe_ingredientandstep_fragment, container, false);
-        mIngredient = getArguments().getParcelableArrayList(INGREDIENT);
+        mIngredient = getArguments().getParcelableArrayList(KEY_INGREDIENT);
         mStep = getArguments().getParcelableArrayList(STEPS);
         twoPane = getArguments().getBoolean(IS_TABLET);
         TextView ingredientTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_ingredients);
@@ -83,30 +81,30 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         backingDetailAppRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         RecipeStepsAdapter recipeStepsAdapter = new RecipeStepsAdapter(mContext, this, mStep);
         backingDetailAppRecyclerView.setAdapter(recipeStepsAdapter);
+
         return rootView;
     }
 
-    @Override
-    public void onClickStepCard(int stepCardPosition) {
-        mIndex = stepCardPosition;
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(STEPS, mStep);
-        args.putInt(INDEX_VALUE, stepCardPosition);
-        if (!twoPane) {
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), BakingAppMediaAndInstructionActivity.class);
-            intent.putExtras(args);
-            startActivity(intent);
-        } else {
-            mIndex = stepCardPosition;
-            mPassValue.passValuesToActivity(mStep, stepCardPosition);
-        }
-    }
+//    @Override
+//    public void onClickStepCard(int stepCardPosition) {
+////        mIndex = stepCardPosition;
+////        Bundle args = new Bundle();
+////        args.putParcelableArrayList(STEPS, mStep);
+////        args.putInt(INDEX_VALUE, stepCardPosition);
+//        mPassValue.passValuesToActivity(mStep,stepCardPosition);
+//
+//    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = getActivity();
+        Activity activity = getActivity();
+        Log.i(TAG, "onAttach Called : " + activity);
+        try {
+            mCallback = (onStepClickedListener) context;
+        } catch (ClassCastException e) {
+            Log.i(TAG, "implement onStepClickedListener");
+        }
     }
 
     @Override
@@ -120,7 +118,15 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         outState.putParcelableArrayList(STEPS, mStep);
     }
 
-    public interface PassValues {
-        void passValuesToActivity(ArrayList<Step> step, int index);
+    @Override
+    public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
+        mCallback.onStepClickSelected(stepCardPosition, stepArrayList);
     }
+
+    public interface onStepClickedListener {
+        void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList);
+    }
+//    public interface PassValues {
+//        void onStepClickSelected(int index);
+//    }
 }

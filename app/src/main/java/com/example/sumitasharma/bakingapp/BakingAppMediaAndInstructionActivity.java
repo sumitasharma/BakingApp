@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 import static com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment.STEPS;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_DESCRIPTION;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 
 
 public class BakingAppMediaAndInstructionActivity extends AppCompatActivity {
 
-    public static final String STEP_DESCRIPTION = "step_description";
-    public static final String STEP_VIDEO = "step_video";
     private static final String TAG = BakingAppMediaAndInstructionActivity.class.getSimpleName();
     public int mIndex = 0;
     String mStepInstruction = null;
@@ -30,12 +30,15 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baking_app_instructionandvideo_detail);
         // if (savedInstanceState == null) {
-        Bundle bundle = this.getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-
+            Log.i(TAG, "onCreate: Bundle is not null");
             mStep = bundle.getParcelableArrayList(STEPS);
+            Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(0).getDescription());
             mIndex = bundle.getInt(INDEX_VALUE);
 
+        } else {
+            Log.i(TAG, "onCreate: Bundle is null");
         }
         // }
 //        else {

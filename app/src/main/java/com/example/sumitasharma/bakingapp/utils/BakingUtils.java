@@ -16,7 +16,10 @@ import java.util.Scanner;
 
 
 public class BakingUtils {
-
+    public final static String IS_TABLET = "is_tablet";
+    public final static String KEY_INGREDIENT = "ingredient";
+    public static final String STEP_DESCRIPTION = "step_description";
+    public static final String STEP_VIDEO = "step_video";
     private static final String TAG = BakingUtils.class.getSimpleName();
     private final static String DEFAULT_BAKING_IMAGE_PATH = "https://cdn.pixabay.com/photo/2017/10/04/18/27/oven-baked-cheese-2817144_1280.jpg";
     private final static String CONTENT_JSON_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
