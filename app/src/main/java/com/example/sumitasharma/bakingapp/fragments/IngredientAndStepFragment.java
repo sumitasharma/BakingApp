@@ -22,14 +22,14 @@ import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
 
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 
 
 public class IngredientAndStepFragment extends Fragment implements RecipeStepsAdapter.RecipeStepsClickListener {
 
-    public static final String INDEX_VALUE = "index_value";
-    public static final String STEPS = "steps";
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
     public BakingAppMediaAndInstructionActivity activity;
     RecyclerView backingDetailAppRecyclerView;
@@ -59,12 +59,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         TextView ingredientTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_ingredients);
         TextView measurementTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_measurement);
         TextView quantityTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_quantity);
-        ingredientTextView.setText("Ingredients");
-        ingredientTextView.append("\n");
-        measurementTextView.setText("Measurement");
-        measurementTextView.append("\n");
-        quantityTextView.setText("Quantity");
-        quantityTextView.append("\n");
 
         for (Ingredient ingredient : mIngredient) {
             ingredientTextView.append("\n");
@@ -85,20 +79,11 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         return rootView;
     }
 
-//    @Override
-//    public void onClickStepCard(int stepCardPosition) {
-////        mIndex = stepCardPosition;
-////        Bundle args = new Bundle();
-////        args.putParcelableArrayList(STEPS, mStep);
-////        args.putInt(INDEX_VALUE, stepCardPosition);
-//        mPassValue.passValuesToActivity(mStep,stepCardPosition);
-//
-//    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Activity activity = getActivity();
+        mContext = context;
         Log.i(TAG, "onAttach Called : " + activity);
         try {
             mCallback = (onStepClickedListener) context;
@@ -118,6 +103,13 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         outState.putParcelableArrayList(STEPS, mStep);
     }
 
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        savedInstanceState.putInt(INDEX_VALUE, mIndex);
+//        savedInstanceState.putParcelableArrayList(STEPS, mStep);
+//    }
+
     @Override
     public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
         mCallback.onStepClickSelected(stepCardPosition, stepArrayList);
@@ -126,7 +118,4 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public interface onStepClickedListener {
         void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList);
     }
-//    public interface PassValues {
-//        void onStepClickSelected(int index);
-//    }
 }

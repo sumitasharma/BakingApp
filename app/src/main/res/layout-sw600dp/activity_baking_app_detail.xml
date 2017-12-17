@@ -10,7 +10,7 @@
         android:id="@+id/baking_app_detail_fragment"
         android:layout_width="500dp"
         android:layout_height="match_parent"
-        android:layout_gravity="left">
+        android:layout_weight=".5">
 
     </FrameLayout>
 
@@ -21,9 +21,9 @@
 
     <FrameLayout
         android:id="@+id/baking_app_video_instruction_fragment"
-        android:layout_width="wrap_content"
+        android:layout_width="500dp"
         android:layout_height="match_parent"
-        android:layout_gravity="fill">
+        android:layout_weight=".5">
 
     </FrameLayout>
 

@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 
+/**
+ * Defining Recipe Object
+ */
+
 public class Recipe implements Parcelable {
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {

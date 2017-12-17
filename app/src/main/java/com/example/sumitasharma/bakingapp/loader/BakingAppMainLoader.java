@@ -21,6 +21,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class BakingAppMainLoader extends AsyncTaskLoader<String> {
+
     private final Context mContext;
     private AsyncResponse mAsyncResponse;
     private ArrayList<Recipe> mRecipe;
@@ -30,7 +31,7 @@ public class BakingAppMainLoader extends AsyncTaskLoader<String> {
         this.mContext = context;
         this.mRecipe = recipes;
         this.mAsyncResponse = asyncResponse;
-        Log.i(TAG, "Constructor called. Bakingloader called");
+        Log.i(TAG, "Constructor called. BakingLoader called");
     }
 
     /**

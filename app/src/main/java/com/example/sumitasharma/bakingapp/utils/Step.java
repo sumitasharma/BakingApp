@@ -3,6 +3,9 @@ package com.example.sumitasharma.bakingapp.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Defining Step Object
+ */
 
 public class Step implements Parcelable {
     public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {

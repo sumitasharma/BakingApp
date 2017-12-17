@@ -1,15 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:name="com.example.sumitasharma.bakingapp.fragment.IngredientAndStepFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:text="Ingredients"
+            android:textSize="15sp"
+            android:textStyle="italic|bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="90dp"
+            android:paddingTop="15dp"
+            android:text="Quantity"
+            android:textSize="15sp"
+            android:textStyle="italic|bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="45dp"
+            android:paddingTop="15dp"
+            android:text="Measurement"
+            android:textSize="15sp"
+            android:textStyle="italic|bold" />
+
+    </LinearLayout>
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -24,7 +57,7 @@
                     android:id="@+id/recipe_ingredients_ingredients"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingLeft="5dp"
                     android:textSize="10sp"
                     android:textStyle="bold|italic" />
 
@@ -32,7 +65,7 @@
                     android:id="@+id/recipe_ingredients_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingLeft="70dp"
                     android:textSize="10sp"
                     android:textStyle="bold|italic" />
 
@@ -40,24 +73,18 @@
                     android:id="@+id/recipe_ingredients_measurement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:paddingLeft="50dp"
                     android:textSize="10sp"
                     android:textStyle="bold|italic" />
             </LinearLayout>
 
 
         </android.support.v7.widget.CardView>
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation = "vertical">-->
-        <!--<android.support.v7.widget.CardView-->
-        <!--android:id="@+id/recipe_step_card_view_holder"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:text="Recipe Introduction"
             android:textSize="15sp"
             android:textStyle="italic|bold" />
@@ -67,8 +94,6 @@
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
-        <!--</android.support.v7.widget.CardView>-->
-        <!--</LinearLayout>-->
 
-    </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

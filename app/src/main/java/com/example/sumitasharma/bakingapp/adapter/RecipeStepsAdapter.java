@@ -17,10 +17,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.DEFAULT_THUMBNAIL;
+
 public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.RecyclerViewHolderStepCard> {
 
     private final static String TAG = BakingAppMainAdapter.class.getSimpleName();
-    private static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
     private Context mContext;
     private RecipeStepsClickListener mRecipeStepsClickListener;
     private ArrayList<Step> mStep;
@@ -45,6 +46,9 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
         if (!mStep.get(position).getThumbnailURL().isEmpty() && !mStep.get(position).getThumbnailURL().contains("mp4")) {
             Picasso.with(mContext).load(mStep.get(position).getThumbnailURL()).into(holder.mThumbnail);
             Log.i(TAG, "Position:" + position + "Thumbnail:" + mStep.get(position).getThumbnailURL());
+
+
+            // SHOW AMIT THE ERROR
 
         } else {
             Picasso.with(mContext).load(DEFAULT_THUMBNAIL).into(holder.mThumbnail);

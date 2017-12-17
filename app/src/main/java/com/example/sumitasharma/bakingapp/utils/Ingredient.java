@@ -3,6 +3,9 @@ package com.example.sumitasharma.bakingapp.utils;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Defining an Ingredient Object
+ */
 
 public class Ingredient implements Parcelable {
     public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>() {

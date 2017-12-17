@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
     android:id="@+id/portrait_mode_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,32 +14,45 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/step_video_player_view"
-            android:layout_width="match_parent"
-        android:layout_height="500dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:use_controller="false">
 
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+        <TextView
+            android:id="@+id/video_not_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:text="Video Not Available For This Step"
+            android:textSize="25sp"
+            android:visibility="invisible" />
 
 
     <android.support.v7.widget.CardView
         android:id="@+id/step_instruction_card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/step_instruction_text_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:padding="25dp" />
     </android.support.v7.widget.CardView>
 
-    <LinearLayout
+        <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="50dp">
 
         <Button
             android:id="@+id/prev_step"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:text="Prev Step" />
 
         <Button
@@ -42,5 +61,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="Next Step" />
+        </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

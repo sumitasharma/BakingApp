@@ -14,8 +14,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Defining all Constants and getting data from Baking JSON Object
+ */
 
 public class BakingUtils {
+    public static final String RECIPE_ID = "recipe_id";
+    public static final String RECIPE_OBJECT = "RECIPE_OBJECT";
+    public static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
+    public static final String INDEX_VALUE = "index_value";
+    public static final String STEPS = "steps";
     public final static String IS_TABLET = "is_tablet";
     public final static String KEY_INGREDIENT = "ingredient";
     public static final String STEP_DESCRIPTION = "step_description";
@@ -26,7 +34,7 @@ public class BakingUtils {
     private final static String ID = "id";
     private final static String NAME = "name";
     private final static String INGREDIENTS = "ingredients";
-    private final static String STEPS = "steps";
+    // private final static String STEPS = "steps";
     private final static String IMAGE = "image";
     private final static String SERVINGS = "servings";
     private final static String QUANTITY = "quantity";

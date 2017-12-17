@@ -17,9 +17,10 @@ import com.example.sumitasharma.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
 
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
+
 public class BakingAppMainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks, BakingAppMainLoader.AsyncResponse, BakingAppClickListener {
-    public static final String RECIPE_ID = "recipe_id";
-    public static final String RECIPE_OBJECT = "RECIPE_OBJECT";
+
     private static final String TAG = BakingAppMainActivity.class.getSimpleName();
     private final LoaderManager.LoaderCallbacks<String[]> callback = BakingAppMainActivity.this;
     public int mLoaderId = 101;
