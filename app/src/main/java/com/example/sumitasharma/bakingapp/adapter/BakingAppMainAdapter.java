@@ -66,7 +66,7 @@ public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdap
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "getItemCount Called. Size is:" + mRecipe.size());
+        //Log.i(TAG, "getItemCount Called. Size is:" + mRecipe.size());
         return mRecipe.size();
     }
 

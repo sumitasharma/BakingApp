@@ -24,6 +24,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
     String mStepInstruction = null;
     String mVideoURL = null;
     private ArrayList<Step> mStep;
+    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
 
             try {
                 Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
-                getSupportActionBar().setTitle(mStep.get(mIndex).getShortDescription());
+                getSupportActionBar().setTitle(mStepInstruction);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -46,13 +47,19 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
                 Log.i(TAG, "onCreate: Bundle is not null");
                 mStep = bundle.getParcelableArrayList(STEPS);
                 Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
+                mTitle = mStep.get(mIndex).getShortDescription();
                 mIndex = bundle.getInt(INDEX_VALUE);
 
             } else {
                 Log.i(TAG, "onCreate: Bundle is null");
             }
-            getSupportActionBar().setTitle(mStep.get(mIndex).getShortDescription());
             mStepInstruction = mStep.get(mIndex).getDescription();
+            if (mStepInstruction.isEmpty())
+                getSupportActionBar().setTitle(mStep.get(mIndex).getShortDescription());
+            else
+                getSupportActionBar().setTitle(mStepInstruction);
+
+
             mVideoURL = mStep.get(mIndex).getVideoURL();
             Bundle args = new Bundle();
             args.putParcelableArrayList(STEPS, mStep);
@@ -94,7 +101,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
     }
 
     @Override
-    public void sendPassSavedInstanceState(int index, ArrayList<Step> stepArrayList, String videoURL) {
+    public void sendPassSavedInstanceState(int index, ArrayList<Step> stepArrayList, String videoURL, boolean mTwoPane) {
         this.mStep = stepArrayList;
         this.mIndex = index;
         this.mVideoURL = videoURL;

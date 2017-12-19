@@ -34,14 +34,14 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public BakingAppMediaAndInstructionActivity activity;
     RecyclerView backingDetailAppRecyclerView;
     Context mContext;
-    boolean twoPane;
+    boolean mTwoPane;
     int mIndex;
     Activity mActivity;
     onStepClickedListener mCallback;
     private ArrayList<Step> mStep = null;
     private ArrayList<Ingredient> mIngredient = null;
     private Recipe mRecipe = null;
-
+    // public SendSavedInstanceToActivity mSendSavedInstanceToActivity;
 
     public IngredientAndStepFragment() {
 
@@ -55,10 +55,11 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         View rootView = inflater.inflate(R.layout.recipe_ingredientandstep_fragment, container, false);
         mIngredient = getArguments().getParcelableArrayList(KEY_INGREDIENT);
         mStep = getArguments().getParcelableArrayList(STEPS);
-        twoPane = getArguments().getBoolean(IS_TABLET);
+        mTwoPane = getArguments().getBoolean(IS_TABLET);
         TextView ingredientTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_ingredients);
         TextView measurementTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_measurement);
         TextView quantityTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_quantity);
+
 
         for (Ingredient ingredient : mIngredient) {
             ingredientTextView.append("\n");
@@ -87,6 +88,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "onAttach Called : " + activity);
         try {
             mCallback = (onStepClickedListener) context;
+            //   mSendSavedInstanceToActivity = (SendSavedInstanceToActivity) context;
         } catch (ClassCastException e) {
             Log.i(TAG, "implement onStepClickedListener");
         }
@@ -95,12 +97,17 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     @Override
     public void onResume() {
         super.onResume();
+        //  mSendSavedInstanceToActivity.PassSavedInstanceToActivity(mIndex,mStep,mTwoPane);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(INDEX_VALUE, mIndex);
         outState.putParcelableArrayList(STEPS, mStep);
+        outState.putBoolean(IS_TABLET, mTwoPane);
+        Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
+        Log.i(TAG, "twopane value got from onSaveInstanceState:" + mTwoPane);
+//        mSendSavedInstanceToActivity.PassSavedInstanceToActivity(mIndex,mStep,mTwoPane);
     }
 
 //    @Override
@@ -110,12 +117,18 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 //        savedInstanceState.putParcelableArrayList(STEPS, mStep);
 //    }
 
+
     @Override
     public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
-        mCallback.onStepClickSelected(stepCardPosition, stepArrayList);
+        mIndex = stepCardPosition;
+        mCallback.onStepClickSelected(stepCardPosition, stepArrayList, mTwoPane);
     }
 
     public interface onStepClickedListener {
-        void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList);
+        void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane);
     }
+//
+//    public interface SendSavedInstanceToActivity {
+//        void PassSavedInstanceToActivity(int index, ArrayList<Step> step, boolean twopane);
+//    }
 }

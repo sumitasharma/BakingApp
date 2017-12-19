@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/step_video_player_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        app:use_controller="false">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/step_video_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:use_controller="false">
 
-    <TextView
-        android:id="@+id/video_not_available"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Video Not Available For This Step"
-        android:textSize="25sp"
-        android:visibility="invisible" />
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
 
-    <TextView
-        android:id="@+id/step_instruction_text_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/video_not_available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:text="Video Not Available For This Step"
+            android:textSize="25sp"
+            android:visibility="invisible" />
 
-    <Button
-        android:id="@+id/prev_step"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentLeft="true"
-        android:text="Prev Step"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/next_step"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentRight="true"
-        android:text="Next Step"
-        android:visibility="gone" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/video_not_available"
+            android:orientation="vertical">
 
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/step_instruction_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp"
+                android:textSize="15sp"
+                android:visibility="invisible" />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/prev_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Prev Step"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/next_step"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="Next Step"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>

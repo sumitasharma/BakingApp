@@ -1,12 +1,12 @@
 package com.example.sumitasharma.bakingapp;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.example.sumitasharma.bakingapp.adapter.RecipeStepsAdapter;
 import com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment;
 import com.example.sumitasharma.bakingapp.fragments.StepVideoAndInstructionFragment;
 import com.example.sumitasharma.bakingapp.utils.Recipe;
@@ -19,7 +19,6 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
-import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 
 
 /**
@@ -30,13 +29,16 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
  * a Tablet.
  */
 
-public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, RecipeStepsAdapter.RecipeStepsClickListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState {
+public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState {
 
     private final static String TAG = BakingAppDetailActivity.class.getSimpleName();
     public int mIndex = 0;
     String mVideoURL = null;
-    private boolean twopane = false;
+    private boolean mTwoPane = false;
     private ArrayList<Step> mStep;
+    private String mTitle;
+
+    //private StepVideoAndInstructionFragment mStepVideoAndInstructionFragment;
 
 
     @Override
@@ -45,172 +47,107 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         setContentView(R.layout.activity_baking_app_detail);
         Recipe mRecipe = null;
         Bundle bundle = this.getIntent().getExtras();
-
-        /**
-         * Checks if class is called from an Intent which was called by "BakingAppMainActivity" and
-         * Recipe object was passed as an argument.
-         */
-
-
+        Log.i(TAG, "onCreate called");
         if (findViewById(R.id.recipe_tablet_linear_layout) != null) {
             //Checking if it is a tablet
-            mIndex = 0;
-            Log.i(TAG, "Inside onCreate and twopane true");
-            twopane = true;
-            if (savedInstanceState == null) {
-                Recipe recipe = bundle.getParcelable(RECIPE_OBJECT);
-                getSupportActionBar().setTitle(recipe.getName());
-
-                Log.i(TAG, "index and mStep : " + recipe.getSteps());
-                Log.i(TAG, "" + mIndex);
-                Bundle argsForVideoAndInstruction = new Bundle();
-                argsForVideoAndInstruction.putParcelableArrayList(STEPS, recipe.getSteps());
-                argsForVideoAndInstruction.putInt(INDEX_VALUE, mIndex);
-                argsForVideoAndInstruction.putBoolean(IS_TABLET, twopane);
-                StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
-                stepVideoAndInstructionFragment.setArguments(argsForVideoAndInstruction);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                // Add the fragment to its container using a FragmentManager and a Transaction
-                fragmentManager.beginTransaction().add(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
-            } else
-                twopane = false;
-
-
+            Log.i(TAG, "Found Tablet interface, setting twoPane to true");
+            mTwoPane = true;
+        } else {
+            Log.i(TAG, "Found Phone interface, setting twoPane to false");
+            mTwoPane = false;
         }
-
-        if (bundle != null) {
-
+        if (savedInstanceState != null) {
+            Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
+            mIndex = savedInstanceState.getInt(INDEX_VALUE);
+            mStep = savedInstanceState.getParcelableArrayList(STEPS);
+            // mTwoPane = savedInstanceState.getBoolean(IS_TABLET);
+            Log.i(TAG, "Index value got from SavedInstance:" + mIndex);
+            Log.i(TAG, "mStep value got from SavedInstance:" + mStep);
+            Log.i(TAG, "mTwoPane value got from SavedInstance:" + mTwoPane);
+        } else {
+            Log.i(TAG, "Bundle is not null, Getting data from bundle");
             mRecipe = bundle.getParcelable(RECIPE_OBJECT);
+            mTitle = mRecipe.getName();
+            mStep = mRecipe.getSteps();
             getSupportActionBar().setTitle(mRecipe.getName());
+            Log.i(TAG, "mIndex value got from bundle:" + mIndex);
+            Log.i(TAG, "mTwoPane value got from bundle:" + mTwoPane);
             Log.i(TAG, "Inside recipe ingredient step detail : " + mRecipe.getIngredients().get(1).getIngredient());
             IngredientAndStepFragment ingredientAndStepFragment = new IngredientAndStepFragment();
             Bundle argsForIngredientsAndSteps = new Bundle();
             argsForIngredientsAndSteps.putParcelableArrayList(KEY_INGREDIENT, mRecipe.getIngredients());
             argsForIngredientsAndSteps.putParcelableArrayList(STEPS, mRecipe.getSteps());
-            argsForIngredientsAndSteps.putBoolean(IS_TABLET, twopane);
-            // mStep = argsForIngredientsAndSteps.getParcelableArrayList(STEPS);
+            argsForIngredientsAndSteps.putBoolean(IS_TABLET, mTwoPane);
             ingredientAndStepFragment.setArguments(argsForIngredientsAndSteps);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.baking_app_detail_fragment, ingredientAndStepFragment).commit();
 
-        }
-        /**
-         *  Checking if the application is running on a Tablet or phone. Variable "twopane" is true if it is indeed a Tablet
-         */
 
-            if (savedInstanceState != null) {
-                mIndex = savedInstanceState.getInt(INDEX_VALUE);
-                mStep = savedInstanceState.getParcelableArrayList(STEPS);
-                mVideoURL = savedInstanceState.getString(STEP_VIDEO);
-                mIndex = savedInstanceState.getInt(INDEX_VALUE);
-                mStep = savedInstanceState.getParcelableArrayList(STEPS);
-                mVideoURL = savedInstanceState.getString(STEP_VIDEO);
-                Log.i(TAG, "Index value in BakingAppDetailActivity and savedInstanceState not null :" + mIndex);
+            if (mTwoPane) {
+
+                getSupportActionBar().setTitle(mTitle);
+
+
+                Log.i(TAG, "Sending data to StepVideoAndInstructionFragment, mIndex" + mIndex + ",mTwoPane:" + mTwoPane);
+                Log.i(TAG, "mTwoPane value got from Tablet StepVideoAndInstructionFragment:" + mTwoPane);
+                Bundle argsForVideoAndInstruction = new Bundle();
+                argsForVideoAndInstruction.putParcelableArrayList(STEPS, mStep);
+                argsForVideoAndInstruction.putInt(INDEX_VALUE, mIndex);
+                argsForVideoAndInstruction.putBoolean(IS_TABLET, mTwoPane);
+                StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
+                stepVideoAndInstructionFragment.setArguments(argsForVideoAndInstruction);
+                fragmentManager = getSupportFragmentManager();
+                // Add the fragment to its container using a FragmentManager and a Transaction
+                fragmentManager.beginTransaction().replace(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
+            }
+        }
+
+
+        // Checks if class is called from an Intent which was called by "BakingAppMainActivity" and
+        // Recipe object was passed as an argument.
+
+
+    }
+
+
+//    @Override
+//    public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
+//        Log.i(TAG, "onClickStepCard - Interface defined in Adapter called");
+//        this.mIndex = stepCardPosition;
+//        this.mStep = stepArrayList;
+//        if (!this.mTwoPane) {
+//            Log.i(TAG, "Found Phone, starting new activity, mIndex" + stepCardPosition);
+//            Intent intent = new Intent();
+//            intent.setClass(this, BakingAppMediaAndInstructionActivity.class);
+//            Bundle args = new Bundle();
+//            args.putParcelableArrayList(STEPS, mStep);
+//            args.putInt(INDEX_VALUE, stepCardPosition);
+//            intent.putExtras(args);
+//            startActivity(intent);
+//        } else {
+//
+//            Log.i(TAG, "Found Tablet, sending data to fragment, ,mIndex" + mIndex);
 //            StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
 //            Bundle argsForStepVideoAndInstructionFragment = new Bundle();
+//            Log.i(TAG, "Index value from onClickStepCard :" + mIndex);
 //            argsForStepVideoAndInstructionFragment.putInt(INDEX_VALUE, mIndex);
 //            argsForStepVideoAndInstructionFragment.putParcelableArrayList(STEPS, mStep);
-//            // twopane is expected true
+//            // mTwoPane is expected true
 //            argsForStepVideoAndInstructionFragment.putBoolean(IS_TABLET, true);
 //            stepVideoAndInstructionFragment.setArguments(argsForStepVideoAndInstructionFragment);
 //            FragmentManager fragmentManager = getSupportFragmentManager();
 //            fragmentManager.beginTransaction().replace(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
-
-            }
-//            if (findViewById(R.id.recipe_tablet_linear_layout) != null) {
-//                //Checking if it is a tablet
-//                mIndex = 0;
-//                Log.i(TAG, "Inside onCreate and twopane true");
-//                twopane = true;
-
-//            if (savedInstanceState != null) {
-//                mIndex = savedInstanceState.getInt(INDEX_VALUE);
-//                mStep = savedInstanceState.getParcelableArrayList(STEPS);
-//                mVideoURL = savedInstanceState.getString(STEP_VIDEO);
-//            }
-//                Recipe recipe = bundle.getParcelable(RECIPE_OBJECT);
-//                getSupportActionBar().setTitle(recipe.getName());
-//
-//                Log.i(TAG, "index and mStep : " + recipe.getSteps());
-//                Log.i(TAG, "" + mIndex);
-//                Bundle argsForVideoAndInstruction = new Bundle();
-//                argsForVideoAndInstruction.putParcelableArrayList(STEPS, recipe.getSteps());
-//                argsForVideoAndInstruction.putInt(INDEX_VALUE, mIndex);
-//                argsForVideoAndInstruction.putBoolean(IS_TABLET, twopane);
-//                StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
-//                stepVideoAndInstructionFragment.setArguments(argsForVideoAndInstruction);
-//                fragmentManager = getSupportFragmentManager();
-//                // Add the fragment to its container using a FragmentManager and a Transaction
-//                fragmentManager.beginTransaction().add(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
-//
-//            } else
-//            twopane = false;
 //        }
-//        else if (savedInstanceState != null) {
-//            mIndex = savedInstanceState.getInt(INDEX_VALUE);
-//            mStep = savedInstanceState.getParcelableArrayList(STEPS);
-//            mVideoURL = savedInstanceState.getString(STEP_VIDEO);
-//            Log.i(TAG,"Index value in BakingAppDetailActivity and savedInstanceState not null :"+mIndex);
-////            StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
-////            Bundle argsForStepVideoAndInstructionFragment = new Bundle();
-////            argsForStepVideoAndInstructionFragment.putInt(INDEX_VALUE, mIndex);
-////            argsForStepVideoAndInstructionFragment.putParcelableArrayList(STEPS, mStep);
-////            // twopane is expected true
-////            argsForStepVideoAndInstructionFragment.putBoolean(IS_TABLET, true);
-////            stepVideoAndInstructionFragment.setArguments(argsForStepVideoAndInstructionFragment);
-////            FragmentManager fragmentManager = getSupportFragmentManager();
-////            fragmentManager.beginTransaction().replace(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
-//
-//        }
-
-    }
-
+//    }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
-        Log.i(TAG, "onClickStepCard - Interface defined in Adapter  called");
-        this.mIndex = stepCardPosition;
-        this.mStep = stepArrayList;
-        if (!twopane) {
-            Intent intent = new Intent();
-            intent.setClass(this, BakingAppMediaAndInstructionActivity.class);
-            Bundle args = new Bundle();
-            args.putParcelableArrayList(STEPS, mStep);
-            args.putInt(INDEX_VALUE, stepCardPosition);
-            intent.putExtras(args);
-            startActivity(intent);
-        } else {
-            StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
-            Bundle argsForStepVideoAndInstructionFragment = new Bundle();
-            Log.i(TAG, "Index value from onClickStepCard :" + mIndex);
-            argsForStepVideoAndInstructionFragment.putInt(INDEX_VALUE, mIndex);
-            argsForStepVideoAndInstructionFragment.putParcelableArrayList(STEPS, mStep);
-            // twopane is expected true
-            argsForStepVideoAndInstructionFragment.putBoolean(IS_TABLET, true);
-            stepVideoAndInstructionFragment.setArguments(argsForStepVideoAndInstructionFragment);
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.baking_app_video_instruction_fragment, stepVideoAndInstructionFragment).commit();
-
-        }
-    }
-
-    @Override
-    public void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList) {
+    public void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane) {
         Log.i(TAG, "Inside onStepClickSelected Interface defined in Fragment called");
         this.mIndex = stepCardPosition;
         this.mStep = stepArrayList;
+        this.mTwoPane = twopane;
         if (!twopane) {
+            Log.i(TAG, "Found Phone, starting new activity, mIndex" + stepCardPosition);
             Intent intent = new Intent();
             intent.setClass(this, BakingAppMediaAndInstructionActivity.class);
             Bundle args = new Bundle();
@@ -220,12 +157,15 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             intent.putExtras(args);
             startActivity(intent);
         } else {
+            Log.i(TAG, "Found Tablet, sending data to fragment, ,mIndex" + mIndex);
+            //getFragmentManager().getFragment("","")
+
             StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
             Bundle argsForStepVideoAndInstructionFragment = new Bundle();
-            Log.i(TAG, "Index value from onStepClickSelected :" + mIndex);
+            //Log.i(TAG, "Index value from onStepClickSelected :" + mIndex);
             argsForStepVideoAndInstructionFragment.putInt(INDEX_VALUE, mIndex);
             argsForStepVideoAndInstructionFragment.putParcelableArrayList(STEPS, mStep);
-            // twopane is expected true
+            // mTwoPane is expected true
             argsForStepVideoAndInstructionFragment.putBoolean(IS_TABLET, twopane);
             stepVideoAndInstructionFragment.setArguments(argsForStepVideoAndInstructionFragment);
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -241,11 +181,29 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
     }
 
     @Override
-    public void sendPassSavedInstanceState(int index, ArrayList<Step> stepArrayList, String videoURL) {
+    public void sendPassSavedInstanceState(int index, ArrayList<Step> stepArrayList, String videoURL, boolean mTwoPane) {
         this.mStep = stepArrayList;
         this.mIndex = index;
         this.mVideoURL = videoURL;
+        this.mTwoPane = mTwoPane;
         Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on DetailActivity: " + mIndex);
+        Log.i(TAG, "mStep value received from Interface sendPassSavedInstanceState on DetailActivity: " + mStep);
     }
+
+//    @Override
+//    public void PassSavedInstanceToActivity(int index, ArrayList<Step> step, boolean mTwoPane) {
+//        this.mStep = step;
+//        this.mIndex = index;
+//        this.mTwoPane = mTwoPane;
+//        Log.i(TAG, "Index value received from Interface PassSavedInstanceToActivity on DetailActivity: " + mIndex);
+//        Log.i(TAG, "mStep value received from Interface PassSavedInstanceToActivity on DetailActivity: " + mStep);
+//    }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        getFragmentManager().putFragment(outState,"StepVideoAndInstructionFragment",mStepVideoAndInstructionFragment);
+//
+//    }
+
 
 }
