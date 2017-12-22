@@ -6,5 +6,6 @@
     <FrameLayout
         android:id="@+id/baking_app_video_instruction_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/bake_time" />
 </LinearLayout>

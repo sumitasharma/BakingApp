@@ -1,60 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bake_time">
 
-
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/portrait_mode_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
 
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/step_video_player_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:use_controller="false">
-
-        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
-
-        <TextView
-            android:id="@+id/video_not_available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Video Not Available For This Step"
-            android:textSize="25sp" />
-
-
         <TextView
             android:id="@+id/step_instruction_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:textSize="15sp" />
+            android:layout_width="397dp"
+            android:layout_height="140dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorYellow"
+            android:padding="10dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/step_video_player_view" />
 
+
+        <TextView
+
+            android:id="@+id/video_not_available"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="110dp"
+            android:background="@color/colorYellow"
+            android:padding="20dp"
+            android:text="Video Not Available For This Step"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/step_instruction_text_view"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="50dp">
+            android:paddingTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/prev_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="Prev Step" />
+                android:text="Prev Step"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/next_step"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="Next Step" />
+                android:text="Next Step"
+                android:textSize="15sp" />
         </RelativeLayout>
-    </LinearLayout>
-</ScrollView>
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/step_video_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="255dp"
+            app:layout_constraintBottom_toTopOf="@+id/step_instruction_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:use_controller="false">
+
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

@@ -20,6 +20,7 @@ import java.util.Scanner;
 
 public class BakingUtils {
     public static final String RECIPE_ID = "recipe_id";
+    public static final String TITLE = "title";
     public static final String RECIPE_OBJECT = "RECIPE_OBJECT";
     public static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
     public static final String INDEX_VALUE = "index_value";

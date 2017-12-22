@@ -292,6 +292,12 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        // Saving last displayed data. mIndex would increase or decrease on next or prev button
+        // respectively, hence keeping mIndex inbound.
+        if (mIndex >= mStep.size() - 1)
+            mIndex--;
+        else if (mIndex < 0)
+            mIndex++;
         Log.i(TAG, "Index value in onSaveInstanceState " + mIndex);
         Log.i(TAG, "mStep value in onSaveInstanceState " + mStep);
         Log.i(TAG, "mTwoPane value in onSaveInstanceState " + mTwoPane);

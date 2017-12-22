@@ -19,6 +19,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
 
 
 /**
@@ -60,16 +61,20 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
+            mTitle = savedInstanceState.getString(TITLE);
+            getSupportActionBar().setTitle(mTitle);
             // mTwoPane = savedInstanceState.getBoolean(IS_TABLET);
             Log.i(TAG, "Index value got from SavedInstance:" + mIndex);
             Log.i(TAG, "mStep value got from SavedInstance:" + mStep);
             Log.i(TAG, "mTwoPane value got from SavedInstance:" + mTwoPane);
+            Log.i(TAG, "mTitle from savedInstanceState:" + mTitle);
+
         } else {
             Log.i(TAG, "Bundle is not null, Getting data from bundle");
             mRecipe = bundle.getParcelable(RECIPE_OBJECT);
             mTitle = mRecipe.getName();
-            mStep = mRecipe.getSteps();
-            getSupportActionBar().setTitle(mRecipe.getName());
+            getSupportActionBar().setTitle(mTitle);
+            // mStep = mRecipe.getSteps();
             Log.i(TAG, "mIndex value got from bundle:" + mIndex);
             Log.i(TAG, "mTwoPane value got from bundle:" + mTwoPane);
             Log.i(TAG, "Inside recipe ingredient step detail : " + mRecipe.getIngredients().get(1).getIngredient());
@@ -78,6 +83,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             argsForIngredientsAndSteps.putParcelableArrayList(KEY_INGREDIENT, mRecipe.getIngredients());
             argsForIngredientsAndSteps.putParcelableArrayList(STEPS, mRecipe.getSteps());
             argsForIngredientsAndSteps.putBoolean(IS_TABLET, mTwoPane);
+            argsForIngredientsAndSteps.putString(TITLE, mTitle);
             ingredientAndStepFragment.setArguments(argsForIngredientsAndSteps);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.baking_app_detail_fragment, ingredientAndStepFragment).commit();
@@ -105,7 +111,6 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
         // Checks if class is called from an Intent which was called by "BakingAppMainActivity" and
         // Recipe object was passed as an argument.
-
 
     }
 
@@ -189,6 +194,12 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on DetailActivity: " + mIndex);
         Log.i(TAG, "mStep value received from Interface sendPassSavedInstanceState on DetailActivity: " + mStep);
     }
+//
+//    @Override
+//    public void giveTheTitle(String title) {
+//        mTitle = title;
+//        Log.i(TAG,"Title recieved :"+mTitle);
+//    }
 
 //    @Override
 //    public void PassSavedInstanceToActivity(int index, ArrayList<Step> step, boolean mTwoPane) {
@@ -201,8 +212,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
 //    @Override
 //    public void onSaveInstanceState(Bundle outState) {
-//        getFragmentManager().putFragment(outState,"StepVideoAndInstructionFragment",mStepVideoAndInstructionFragment);
-//
+//        outState.putString(TITLE,mTitle);
 //    }
 
 

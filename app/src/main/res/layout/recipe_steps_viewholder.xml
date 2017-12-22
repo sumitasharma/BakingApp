@@ -4,13 +4,14 @@
     android:id="@+id/recipe_step_card_view_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin=".5dp"
     card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="4dp">
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorYellow"
         android:orientation="horizontal">
 
         <TextView
@@ -18,16 +19,19 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
             android:inputType="textMultiLine"
             android:maxLines="2"
             android:minLines="2"
-            android:padding="25dp" />
+            android:padding="20dp"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/step_thumbnail_view_holder"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
