@@ -61,8 +61,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
-            mTitle = savedInstanceState.getString(TITLE);
-            getSupportActionBar().setTitle(mTitle);
+
             // mTwoPane = savedInstanceState.getBoolean(IS_TABLET);
             Log.i(TAG, "Index value got from SavedInstance:" + mIndex);
             Log.i(TAG, "mStep value got from SavedInstance:" + mStep);
@@ -74,7 +73,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             mRecipe = bundle.getParcelable(RECIPE_OBJECT);
             mTitle = mRecipe.getName();
             getSupportActionBar().setTitle(mTitle);
-            // mStep = mRecipe.getSteps();
+            mStep = mRecipe.getSteps();
             Log.i(TAG, "mIndex value got from bundle:" + mIndex);
             Log.i(TAG, "mTwoPane value got from bundle:" + mTwoPane);
             Log.i(TAG, "Inside recipe ingredient step detail : " + mRecipe.getIngredients().get(1).getIngredient());

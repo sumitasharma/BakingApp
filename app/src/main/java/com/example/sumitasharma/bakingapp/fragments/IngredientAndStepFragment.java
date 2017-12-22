@@ -103,7 +103,8 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
             TableRow ingredientTableRow = new TableRow(mContext);
             ingredientTableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             TextView ingredientTextView = new TextView(mContext);
-            ingredientTextView.setText(ingredient.getIngredient());
+            String ingredientCapital = String.valueOf(ingredient.getIngredient().charAt(0)).toUpperCase() + ingredient.getIngredient().substring(1, ingredient.getIngredient().length());
+            ingredientTextView.setText(ingredientCapital);
             ingredientTextView.setMaxWidth(150);
             ingredientTextView.setPadding(30, 10, 80, 0);
             ingredientTextView.setTypeface(null, Typeface.BOLD_ITALIC);
