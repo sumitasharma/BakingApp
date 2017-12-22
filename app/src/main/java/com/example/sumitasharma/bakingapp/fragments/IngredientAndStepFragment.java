@@ -3,6 +3,8 @@ package com.example.sumitasharma.bakingapp.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sumitasharma.bakingapp.BakingAppMediaAndInstructionActivity;
 import com.example.sumitasharma.bakingapp.R;
@@ -38,6 +41,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
     public BakingAppMediaAndInstructionActivity activity;
+    public PutTheTitle mPutTheTitle;
     RecyclerView backingDetailAppRecyclerView;
     Context mContext;
     boolean mTwoPane;
@@ -48,7 +52,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     private ArrayList<Step> mStep = null;
     private ArrayList<Ingredient> mIngredient = null;
     private Recipe mRecipe = null;
-//    public PutTheTitle mPutTheTitle;
 
     public IngredientAndStepFragment() {
 
@@ -158,19 +161,25 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "onAttach Called : " + activity);
         try {
             mCallback = (onStepClickedListener) context;
-            // mPutTheTitle = (PutTheTitle) context;
+            mPutTheTitle = (PutTheTitle) context;
             //   mSendSavedInstanceToActivity = (SendSavedInstanceToActivity) context;
         } catch (ClassCastException e) {
             Log.i(TAG, "implement onStepClickedListener");
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.i(TAG,"Title on resume is :"+mTitle);
-//        mPutTheTitle.giveTheTitle(mTitle);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "Title on resume is :" + mTitle);
+        mPutTheTitle.giveTheTitle(mTitle);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        mPutTheTitle.giveTheTitle(mTitle);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -181,6 +190,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
         Log.i(TAG, "twopane value got from onSaveInstanceState:" + mTwoPane);
         Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
+        mPutTheTitle.giveTheTitle(mTitle);
 //        mSendSavedInstanceToActivity.PassSavedInstanceToActivity(mIndex,mStep,mTwoPane);
     }
 
@@ -189,20 +199,37 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 //        super.onViewStateRestored(savedInstanceState);
 //        savedInstanceState.putInt(INDEX_VALUE, mIndex);
 //        savedInstanceState.putParcelableArrayList(STEPS, mStep);
-//    }
+    //   }
 
 
     @Override
     public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
-        mIndex = stepCardPosition;
-        mCallback.onStepClickSelected(stepCardPosition, stepArrayList, mTwoPane);
+        if (!isOnline()) {
+            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+        } else {
+            mIndex = stepCardPosition;
+            mCallback.onStepClickSelected(stepCardPosition, stepArrayList, mTwoPane);
+        }
+    }
+
+    /**
+     * Checks Internet Connectivity
+     *
+     * @return true if the Internet Connection is available, false otherwise.
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public interface onStepClickedListener {
         void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane);
     }
 
-//    public interface PutTheTitle {
-//        void giveTheTitle(String title);
-//    }
+    public interface PutTheTitle {
+        void giveTheTitle(String title);
+    }
+
 }

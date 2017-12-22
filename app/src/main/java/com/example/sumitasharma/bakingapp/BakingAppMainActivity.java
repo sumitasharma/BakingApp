@@ -2,6 +2,8 @@ package com.example.sumitasharma.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.sumitasharma.bakingapp.adapter.BakingAppMainAdapter;
 import com.example.sumitasharma.bakingapp.adapter.BakingAppMainAdapter.BakingAppClickListener;
@@ -64,13 +67,17 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        Log.i(TAG, "Inside onLoadFinished in BakingAppMainActivity" + mRecipe.get(0).getName());
-        //ImageView bakingImage = (ImageView) findViewById(R.id.baking_main_view_image);
-        BakingAppMainAdapter bakingAppMainAdapter = new BakingAppMainAdapter(mContext, this, mRecipe);
-        bakingAppRecyclerView.setAdapter(bakingAppMainAdapter);
-        //movieSynopsis.setText(mMovieDetail.getSynopsis());
-        //Picasso.with(mContext).load(mRecipe[0].getImage()).into(bakingImage);
-
+        if (!isOnline()) {
+            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+//        Log.i(TAG, "Inside onLoadFinished in BakingAppMainActivity" + mRecipe.get(0).getName());
+            //ImageView bakingImage = (ImageView) findViewById(R.id.baking_main_view_image);
+            BakingAppMainAdapter bakingAppMainAdapter = new BakingAppMainAdapter(mContext, this, mRecipe);
+            bakingAppRecyclerView.setAdapter(bakingAppMainAdapter);
+            //movieSynopsis.setText(mMovieDetail.getSynopsis());
+            //Picasso.with(mContext).load(mRecipe[0].getImage()).into(bakingImage);
+        }
     }
 
     @Override
@@ -95,13 +102,19 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void processFinish(ArrayList<Recipe> recipes) {
-        Log.i(TAG, "processFinish Called");
-        this.mRecipe = recipes;
+        if (isOnline()) {
+            Log.i(TAG, "processFinish Called");
+            this.mRecipe = recipes;
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!isOnline()) {
+            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+            return;
+        }
         getSupportLoaderManager().restartLoader(this.mLoaderId, null, callback);
     }
 
@@ -109,6 +122,18 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     protected void onRestart() {
         super.onRestart();
         getSupportLoaderManager().restartLoader(this.mLoaderId, null, callback);
+    }
+
+    /**
+     * Checks Internet Connectivity
+     *
+     * @return true if the Internet Connection is available, false otherwise.
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

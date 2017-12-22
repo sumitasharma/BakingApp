@@ -30,7 +30,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
  * a Tablet.
  */
 
-public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState {
+public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState, IngredientAndStepFragment.PutTheTitle {
 
     private final static String TAG = BakingAppDetailActivity.class.getSimpleName();
     public int mIndex = 0;
@@ -61,7 +61,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
-
+            mTitle = savedInstanceState.getString(TITLE);
             // mTwoPane = savedInstanceState.getBoolean(IS_TABLET);
             Log.i(TAG, "Index value got from SavedInstance:" + mIndex);
             Log.i(TAG, "mStep value got from SavedInstance:" + mStep);
@@ -192,6 +192,12 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         this.mTwoPane = mTwoPane;
         Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on DetailActivity: " + mIndex);
         Log.i(TAG, "mStep value received from Interface sendPassSavedInstanceState on DetailActivity: " + mStep);
+    }
+
+    @Override
+    public void giveTheTitle(String title) {
+        this.mTitle = title;
+        Log.i(TAG, "Title recieved :" + mTitle);
     }
 //
 //    @Override
