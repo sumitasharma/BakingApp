@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="150dp"
+                android:paddingRight="5dp"
                 android:paddingTop="20dp"
                 android:textAppearance="@color/colorPrimary"
                 android:textSize="25sp"
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="175dp"
+                android:paddingRight="2dp"
                 android:paddingTop="15dp"
                 android:text="@string/serves"
                 android:textAppearance="@color/colorPrimaryDark"
@@ -51,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="190dp"
+                android:paddingRight="2dp"
                 android:paddingTop="10dp"
                 android:textAppearance="@color/colorPrimaryDark"
                 android:textSize="20sp" />

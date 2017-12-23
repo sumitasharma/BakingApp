@@ -41,16 +41,16 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
     public BakingAppMediaAndInstructionActivity activity;
-    public PutTheDataInActivity mPutTheDataToActivity;
-    RecyclerView backingDetailAppRecyclerView;
-    Context mContext;
-    boolean mTwoPane;
-    int mIndex;
-    String mTitle;
     Activity mActivity;
-    onStepClickedListener mCallback;
-    ArrayList<Step> mStep = null;
-    ArrayList<Ingredient> mIngredient = null;
+    private PutTheDataInActivity mPutTheDataToActivity;
+    private RecyclerView backingDetailAppRecyclerView;
+    private Context mContext;
+    private boolean mTwoPane;
+    private int mIndex;
+    private String mTitle;
+    private onStepClickedListener mCallback;
+    private ArrayList<Step> mStep = null;
+    private ArrayList<Ingredient> mIngredient = null;
     private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
@@ -69,53 +69,53 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         mStep = getArguments().getParcelableArrayList(STEPS);
         mTwoPane = getArguments().getBoolean(IS_TABLET);
         mTitle = getArguments().getString(TITLE);
-//        TextView ingredientTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_ingredients);
-//        TextView measurementTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_measurement);
-//        TextView quantityTextView = (TextView) rootView.findViewById(R.id.recipe_ingredients_quantity);
 
-
+        // Programmatically setting the TableLayout
         TableLayout ingredientsTableLayout = (TableLayout) rootView.findViewById(R.id.ingredients_table_layout);
         TableRow ingredientTitleRow = new TableRow(mContext);
 
+        // Setting the Titles of the Table
         TextView ingredientTitleTextView = new TextView(mContext);
         ingredientTitleTextView.setTextSize(20);
         ingredientTitleTextView.setText(R.string.ingredients);
-        ingredientTitleTextView.setPadding(20, 10, 250, 80);
+        ingredientTitleTextView.setPadding(25, 10, 200, 80);
         ingredientTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(ingredientTitleTextView);
-
-        TextView measurementTitleTextView = new TextView(mContext);
-        measurementTitleTextView.setTextSize(20);
-        measurementTitleTextView.setText(R.string.measurement);
-        measurementTitleTextView.setPadding(10, 10, 60, 80);
-        measurementTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
-        ingredientTitleRow.addView(measurementTitleTextView);
 
         TextView quantityTitleTextView = new TextView(mContext);
         quantityTitleTextView.setTextSize(20);
         quantityTitleTextView.setText(R.string.quantity);
-        quantityTitleTextView.setPadding(5, 10, 5, 80);
+        quantityTitleTextView.setPadding(5, 10, 80, 80);
         quantityTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(quantityTitleTextView);
+
+        TextView measurementTitleTextView = new TextView(mContext);
+        measurementTitleTextView.setTextSize(20);
+        measurementTitleTextView.setText(R.string.measurement);
+        measurementTitleTextView.setPadding(10, 10, 10, 80);
+        measurementTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
+        ingredientTitleRow.addView(measurementTitleTextView);
 
 
         ingredientsTableLayout.addView(ingredientTitleRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-
+        // Populating the rows with the Ingredient data
         for (Ingredient ingredient : mIngredient) {
             TableRow ingredientTableRow = new TableRow(mContext);
             ingredientTableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
             TextView ingredientTextView = new TextView(mContext);
             String ingredientCapital = String.valueOf(ingredient.getIngredient().charAt(0)).toUpperCase() + ingredient.getIngredient().substring(1, ingredient.getIngredient().length());
             ingredientTextView.setText(ingredientCapital);
-            ingredientTextView.setMaxWidth(150);
-            ingredientTextView.setPadding(30, 10, 80, 0);
+            ingredientTextView.setMaxWidth(250);
+            ingredientTextView.setPadding(30, 10, 170, 0);
             ingredientTextView.setTypeface(null, Typeface.BOLD_ITALIC);
             TextView quantityTextView = new TextView(mContext);
             quantityTextView.setText(ingredient.getQuantity());
+            quantityTextView.setPadding(30, 10, 150, 0);
             quantityTextView.setTypeface(null, Typeface.BOLD_ITALIC);
             TextView measurementTextView = new TextView(mContext);
             measurementTextView.setText(ingredient.getMeasure());
+            measurementTitleTextView.setPadding(30, 10, 10, 0);
             measurementTextView.setTypeface(null, Typeface.BOLD_ITALIC);
             ingredientTableRow.addView(ingredientTextView);
             ingredientTableRow.addView(quantityTextView);
@@ -124,26 +124,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
             Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
         }
-//        b.setText("Dynamic Button");
-//        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-///* Add Button to row. */
-//        tr.addView(b);
-///* Add row to TableLayout. */
-////tr.setBackgroundResource(R.drawable.sf_gradient_03);
-//        tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
-
-//        for (Ingredient ingredient : mIngredient) {
-////            ingredientTextView.append("\n");
-////            ingredientTextView.append("* ");
-//            ingredientTextView.append(ingredient.getIngredient());
-//          //  quantityTextView.append("\n");
-//            quantityTextView.append(ingredient.getQuantity());
-//          //  measurementTextView.append("\n");
-//            measurementTextView.append(ingredient.getMeasure());
-//
-//            Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
-//        }
         backingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
         backingDetailAppRecyclerView.setHasFixedSize(true);
         backingDetailAppRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -162,7 +142,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         try {
             mCallback = (onStepClickedListener) context;
             mPutTheDataToActivity = (PutTheDataInActivity) context;
-            //   mSendSavedInstanceToActivity = (SendSavedInstanceToActivity) context;
         } catch (ClassCastException e) {
             Log.i(TAG, "implement onStepClickedListener");
         }
@@ -191,15 +170,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "twopane value got from onSaveInstanceState:" + mTwoPane);
         Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
-//        mSendSavedInstanceToActivity.PassSavedInstanceToActivity(mIndex,mStep,mTwoPane);
     }
-
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//        savedInstanceState.putInt(INDEX_VALUE, mIndex);
-//        savedInstanceState.putParcelableArrayList(STEPS, mStep);
-    //   }
 
 
     @Override

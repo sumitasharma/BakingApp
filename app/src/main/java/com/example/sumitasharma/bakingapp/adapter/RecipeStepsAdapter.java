@@ -22,9 +22,9 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.DEFAULT_THUMB
 public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.RecyclerViewHolderStepCard> {
 
     private final static String TAG = BakingAppMainAdapter.class.getSimpleName();
-    private Context mContext;
-    private RecipeStepsClickListener mRecipeStepsClickListener;
-    private ArrayList<Step> mStep;
+    private final Context mContext;
+    private final RecipeStepsClickListener mRecipeStepsClickListener;
+    private final ArrayList<Step> mStep;
 
     public RecipeStepsAdapter(Context context, RecipeStepsClickListener recipeStepsClickListener, ArrayList<Step> step) {
         Log.i(TAG, "Inside RecipeStepsAdapter Constructor");
@@ -42,11 +42,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     @Override
     public void onBindViewHolder(RecyclerViewHolderStepCard holder, int position) {
         holder.mStepTextView.setText(mStep.get(position).getShortDescription());
-        //Log.i(TAG,"Position:"+position + "Thumbnail:" + mStep.get(position).getThumbnailURL());
         if (!mStep.get(position).getThumbnailURL().isEmpty() && !mStep.get(position).getThumbnailURL().contains("mp4")) {
             Picasso.with(mContext).load(mStep.get(position).getThumbnailURL()).into(holder.mThumbnail);
-            Log.i(TAG, "Position:" + position + "Thumbnail:" + mStep.get(position).getThumbnailURL());
-
         } else {
             Picasso.with(mContext).load(DEFAULT_THUMBNAIL).into(holder.mThumbnail);
         }
@@ -65,8 +62,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
     class RecyclerViewHolderStepCard extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final CardView mStepCardView;
-        private TextView mStepTextView;
-        private ImageView mThumbnail;
+        private final TextView mStepTextView;
+        private final ImageView mThumbnail;
 
 
         RecyclerViewHolderStepCard(View itemView) {

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Loader;
 import android.util.Log;
 
-public class RecipeIngredientAndStepLoader extends Loader {
+class RecipeIngredientAndStepLoader extends Loader {
     private final static String TAG = RecipeIngredientAndStepLoader.class.getSimpleName();
 
     /**
@@ -18,7 +18,7 @@ public class RecipeIngredientAndStepLoader extends Loader {
      *
      * @param context used to retrieve the application context.
      */
-    public RecipeIngredientAndStepLoader(Context context) {
+    private RecipeIngredientAndStepLoader(Context context) {
         super(context);
     }
 

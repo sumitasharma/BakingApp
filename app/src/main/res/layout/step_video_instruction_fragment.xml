@@ -8,9 +8,6 @@
         android:id="@+id/portrait_mode_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/pastery_image"
-        android:backgroundTint="#80FFFFFF"
-        android:backgroundTintMode="src_over"
         android:orientation="vertical">
 
 

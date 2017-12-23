@@ -30,7 +30,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
         //Set the Image to Baking Dish
         //  views.setTextViewText(R.id.baking_app_widget_text_view,recipeArrayList.get(index).getName());
-        views.setImageViewResource(R.id.baking_app_widget_image_view, R.drawable.baking_image);
+        views.setImageViewResource(R.id.baking_app_widget_image_view, R.drawable.bake_time);
         //Create and Launch BakingAppMainActivity when clicked
         Intent intent = new Intent(context, BakingAppDetailActivity.class);
 //        Bundle b = new Bundle();

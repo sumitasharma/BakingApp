@@ -39,8 +39,8 @@ import java.util.ArrayList;
 public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdapter.RecyclerViewHolderBakeCard> {
     private final static String TAG = BakingAppMainAdapter.class.getSimpleName();
     private final Context mContext;
-    private BakingAppClickListener mBackingAppClickListener;
-    private ArrayList<Recipe> mRecipe;
+    private final BakingAppClickListener mBackingAppClickListener;
+    private final ArrayList<Recipe> mRecipe;
 
 
     public BakingAppMainAdapter(Context context, BakingAppClickListener bakingAppClickListener, ArrayList<Recipe> recipe) {
@@ -76,9 +76,9 @@ public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdap
 
     class RecyclerViewHolderBakeCard extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final CardView mBakingCardView;
-        private ImageView mBakingMainImage;
-        private TextView mBakingMainName;
-        private TextView mBakingMainServing;
+        private final ImageView mBakingMainImage;
+        private final TextView mBakingMainName;
+        private final TextView mBakingMainServing;
 
         RecyclerViewHolderBakeCard(View itemView) {
             super(itemView);

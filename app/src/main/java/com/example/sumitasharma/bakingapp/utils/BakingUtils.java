@@ -87,7 +87,7 @@ public class BakingUtils {
         //Convert fullJsonMoviesData to JsonObject
         String urlResponse = null;
         URL jsonURL = buildUrl();
-        Log.i(TAG, "Inside convertJsonToRecipeObjects in BakingUtils");
+        //Log.i(TAG, "Inside convertJsonToRecipeObjects in BakingUtils");
         try {
             urlResponse = getResponseFromHttpUrl(jsonURL);
         } catch (Exception e) {
@@ -95,11 +95,6 @@ public class BakingUtils {
         }
 
         JSONArray bakingDataArray = new JSONArray(urlResponse);
-        //JSONArray bakingDataArray = bakingDataObject.getJSONArray(bakingDataObject.toString());
-        // JSONArray recipeArray = bakingDataObject.getJSONArray(0);
-
-        Log.i(TAG, "Inside ConvertJson" + bakingDataArray.toString());
-        Log.i(TAG, "Inside ConvertJson: Length is:" + bakingDataArray.length());
         ArrayList<Recipe> results = new ArrayList<>();
         for (int i = 0; i < bakingDataArray.length(); i++) {
             Recipe recipe = new Recipe();
@@ -131,7 +126,6 @@ public class BakingUtils {
             recipe.setSteps(stepArray);
             results.add(recipe);
         }
-        Log.i(TAG, "Results Size is:" + results.size());
         for (Recipe result : results) {
             Log.i(TAG, "Recipe Name:" + result.getName());
         }

@@ -40,12 +40,12 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 public class StepVideoAndInstructionFragment extends Fragment {
 
     private static final String TAG = StepVideoAndInstructionFragment.class.getSimpleName();
-    public PassTitle mPassTitle;
-    public PassSavedInstanceState mPassSavedInstanceState;
-    Context mContext = getContext();
-    int mIndex;
-    Button mPrevStepButton;
-    Button mNextStepButton;
+    private PassTitle mPassTitle;
+    private PassSavedInstanceState mPassSavedInstanceState;
+    private Context mContext = getContext();
+    private int mIndex;
+    private Button mPrevStepButton;
+    private Button mNextStepButton;
     private boolean mPlayWhenReady = true;
     private int mCurrentWindow;
     private long mPlaybackPosition;
@@ -71,10 +71,8 @@ public class StepVideoAndInstructionFragment extends Fragment {
         mVideoNotAvailableText = (TextView) rootView.findViewById(R.id.video_not_available);
         mStepVideoPlayerView.setVisibility(View.VISIBLE);
         mVideoNotAvailableText.setVisibility(View.INVISIBLE);
-        // Getting the data from savedInstanceState if it is not null.
         if (savedInstanceState != null) {
             // Checking if the data  is coming from savedInstance
-            Log.i(TAG, "savedInstanceState is not null, Getting data from savedInstance, mIndex" + mIndex + "twopane:" + mTwoPane);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
             //mVideo = savedInstanceState.getString(STEP_VIDEO);
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
@@ -84,22 +82,18 @@ public class StepVideoAndInstructionFragment extends Fragment {
             // BakingAppMediaAndInstructionActivity(phone) or BakingAppDetailActivity(tablet)
 
             mStep = getArguments().getParcelableArrayList(STEPS);
-            // Log.i(TAG, " savedInstanceState is null, Getting data from Activity arguments, mStep" + mStep);
-
-            //  mVideo = getArguments().getString(STEP_VIDEO);
             mIndex = getArguments().getInt(INDEX_VALUE);
             mTwoPane = getArguments().getBoolean(IS_TABLET);
-            Log.i(TAG, "savedInstanceState is null, Getting data from Arguments, mIndex" + mIndex + "twopane:" + mTwoPane);
         }
 
 
-        /**
-         * Checking if the mode is portrait or landscape/tablet. If portrait, need to set up previous and next button.
-         */
+        // Checking if the mode is portrait/tablet or landscape. If portrait/tablet, need to set up
+        // previous and next button.
+
 
         if (rootView.findViewById(R.id.portrait_mode_linear_layout) != null || mTwoPane) {
-            //Following is done if the mode is portrait
-            Log.i(TAG, "Found Phone in potrait mode or Tablet");
+            //Following is done if the mode is Portrait or Tablet
+            //Log.i(TAG, "Found Phone in Portrait mode or Tablet");
 
             mStepInstructionTextView = (TextView) rootView.findViewById(R.id.step_instruction_text_view);
             mPrevStepButton = (Button) rootView.findViewById(R.id.prev_step);
@@ -107,11 +101,9 @@ public class StepVideoAndInstructionFragment extends Fragment {
             mStepInstructionTextView.setVisibility(View.VISIBLE);
             mPrevStepButton.setVisibility(View.VISIBLE);
             mNextStepButton.setVisibility(View.VISIBLE);
-//            mInstruction = getArguments().getString(STEP_DESCRIPTION);
             mStepInstructionTextView.setText(mStep.get(mIndex).getDescription());
             // Log.i(TAG, "Inside fragment. Value of twopane is : " + mTwoPane);
             Log.i(TAG, "Index value received " + mIndex);
-            Log.i(TAG, "mInstruction value received " + mInstruction);
             mPrevStepButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -120,16 +112,13 @@ public class StepVideoAndInstructionFragment extends Fragment {
                     if (mIndex > 0) {
                         mIndex--;
                         mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
-                        Log.i(TAG, "Index value onClick prev button " + mIndex);
                         mStepInstructionTextView.setText(mStep.get(mIndex).getDescription());
                         mVideo = mStep.get(mIndex).getVideoURL();
                         if (!mVideo.isEmpty()) {
-                            Log.i(TAG, "VideoURL value in if loop : " + mStep.get(mIndex).getVideoURL());
                             initializePlayer();
                         } else {
                             mStepVideoPlayerView.setVisibility(View.INVISIBLE);
                             mVideoNotAvailableText.setVisibility(View.VISIBLE);
-                            Log.i(TAG, "VideoURL value in if loop : " + mStep.get(mIndex).getVideoURL());
                         }
                     } else {
                         mIndex = 0;
@@ -144,17 +133,13 @@ public class StepVideoAndInstructionFragment extends Fragment {
                     if (mIndex < mStep.size() - 1) {
                         mIndex++;
                         mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
-                        Log.i(TAG, "Index value onClick Next Button " + mIndex);
                         mStepInstructionTextView.setText(mStep.get(mIndex).getDescription());
                         mVideo = mStep.get(mIndex).getVideoURL();
                         if (!mVideo.isEmpty()) {
-                            Log.i(TAG, "VideoURL value in if loop : " + mStep.get(mIndex).getVideoURL());
                             initializePlayer();
                         } else {
                             mStepVideoPlayerView.setVisibility(View.INVISIBLE);
                             mVideoNotAvailableText.setVisibility(View.VISIBLE);
-
-                            Log.i(TAG, "VideoURL value in if loop : " + mStep.get(mIndex).getVideoURL());
                         }
                     } else {
                         mIndex = mStep.size();
@@ -225,7 +210,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
         super.onStart();
         mContext = getContext();
         Log.i(TAG, "onStart Called, sendingSavedInstance data, mIndex:" + mIndex);
-        //mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo);
         if (Util.SDK_INT > 23) {
             initializePlayer();
         }
@@ -249,7 +233,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
     public void onPause() {
         super.onPause();
         Log.i(TAG, "onPause Called, sendingSavedInstance data, mIndex:" + mIndex);
-        //mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo,mTwoPane);
         Log.i(TAG, "Index value onClick onPause " + mIndex);
         if (Util.SDK_INT <= 23) {
             releasePlayer();
@@ -260,21 +243,10 @@ public class StepVideoAndInstructionFragment extends Fragment {
     public void onStop() {
         super.onStop();
         Log.i(TAG, "onStop Called, sendingSavedInstance data, mIndex:" + mIndex);
-        // mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo);
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }
     }
-
-//    @SuppressLint("InlinedApi")
-//    private void hideSystemUi() {
-//        mStepVideoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-//    }
 
     private void releasePlayer() {
         if (mStepVideoPlayer != null) {
@@ -294,7 +266,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
         mPassTitle = (PassTitle) context;
         mPassSavedInstanceState = (PassSavedInstanceState) context;
-        //mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo);
     }
 
 
@@ -306,31 +277,12 @@ public class StepVideoAndInstructionFragment extends Fragment {
             mIndex--;
         else if (mIndex < 0)
             mIndex++;
-        Log.i(TAG, "Index value in onSaveInstanceState " + mIndex);
-        Log.i(TAG, "mStep value in onSaveInstanceState " + mStep);
-        Log.i(TAG, "mTwoPane value in onSaveInstanceState " + mTwoPane);
         outState.putInt(INDEX_VALUE, mIndex);
         outState.putParcelableArrayList(STEPS, mStep);
         outState.putString(STEP_VIDEO, mVideo);
         outState.putBoolean(IS_TABLET, mTwoPane);
-        // mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo);
         mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
     }
-
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        Log.i(TAG, "Index value in onViewStateRestored " + mIndex);
-//        super.onViewStateRestored(savedInstanceState);
-//        try{
-//        savedInstanceState.putInt(INDEX_VALUE, mIndex);
-//        savedInstanceState.putParcelableArrayList(STEPS, mStep);}
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        //savedInstanceState.putString(STEP_VIDEO, mVideo);
-//        mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo);
-//        mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
-//    }
 
     /**
      * Checks Internet Connectivity

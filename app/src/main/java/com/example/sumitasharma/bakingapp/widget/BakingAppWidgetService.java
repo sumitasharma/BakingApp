@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class BakingAppWidgetService extends IntentService {
     private static final String CHANGE_RECIPE = "change_recipe";
-    ArrayList<Recipe> mRecipe;
+    private ArrayList<Recipe> mRecipe;
     private int mIndex = 0;
 
     public BakingAppWidgetService() {
@@ -29,7 +29,7 @@ public class BakingAppWidgetService extends IntentService {
         context.startService(intent);
     }
 
-    public void getRecipeObjectFromJSON() {
+    private void getRecipeObjectFromJSON() {
         try {
             mRecipe = BakingUtils.convertJsonToRecipeObjects();
         } catch (Exception e) {

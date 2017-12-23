@@ -29,7 +29,7 @@ public class Step implements Parcelable {
 
     }
 
-    protected Step(Parcel in) {
+    Step(Parcel in) {
         id = in.readString();
         shortDescription = in.readString();
         description = in.readString();

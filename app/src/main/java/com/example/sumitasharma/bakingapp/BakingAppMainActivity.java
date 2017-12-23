@@ -26,9 +26,9 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     private static final String TAG = BakingAppMainActivity.class.getSimpleName();
     private final LoaderManager.LoaderCallbacks<String[]> callback = BakingAppMainActivity.this;
-    int mLoaderId = 101;
-    Context mContext;
-    RecyclerView bakingAppRecyclerView;
+    private int mLoaderId = 101;
+    private Context mContext;
+    private RecyclerView bakingAppRecyclerView;
     private ArrayList<Recipe> mRecipe = null;
 
     @Override
@@ -71,12 +71,8 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
         if (!isOnline()) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         } else {
-//        Log.i(TAG, "Inside onLoadFinished in BakingAppMainActivity" + mRecipe.get(0).getName());
-            //ImageView bakingImage = (ImageView) findViewById(R.id.baking_main_view_image);
             BakingAppMainAdapter bakingAppMainAdapter = new BakingAppMainAdapter(mContext, this, mRecipe);
             bakingAppRecyclerView.setAdapter(bakingAppMainAdapter);
-            //movieSynopsis.setText(mMovieDetail.getSynopsis());
-            //Picasso.with(mContext).load(mRecipe[0].getImage()).into(bakingImage);
         }
     }
 
@@ -87,7 +83,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onClickBakeCard(int bakeCardPosition) {
-        Log.i(TAG, "onClickBakeCard : bakecardposition " + bakeCardPosition);
+        //Log.i(TAG, "onClickBakeCard : bakecardposition " + bakeCardPosition);
         //String recipeId = String.valueOf(mRecipe.get(bakeCardPosition).getId());
         Intent intent = new Intent();
         Bundle b = new Bundle();
@@ -95,15 +91,11 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
         intent.putExtras(b);
         intent.setClass(this, BakingAppDetailActivity.class);
         startActivity(intent);
-        Log.i(TAG, "Sending data :" + mRecipe.get(bakeCardPosition).getName());
-        Log.i(TAG, "Sending data :" + mRecipe.get(bakeCardPosition).getIngredients());
-
     }
 
     @Override
     public void processFinish(ArrayList<Recipe> recipes) {
         if (isOnline()) {
-            Log.i(TAG, "processFinish Called");
             this.mRecipe = recipes;
         }
     }

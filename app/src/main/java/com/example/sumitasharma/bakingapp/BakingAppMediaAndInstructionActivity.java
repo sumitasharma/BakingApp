@@ -20,10 +20,10 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 public class BakingAppMediaAndInstructionActivity extends AppCompatActivity implements StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState {
 
     private static final String TAG = BakingAppMediaAndInstructionActivity.class.getSimpleName();
-    int mIndex = 0;
-    String mStepInstruction = null;
-    String mVideoURL = null;
-    String mTitle;
+    private int mIndex = 0;
+    private String mStepInstruction = null;
+    private String mVideoURL = null;
+    private String mTitle;
     private ArrayList<Step> mStep;
 
     @Override
@@ -35,18 +35,18 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
 
             try {
-                Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
+                //Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
                 getSupportActionBar().setTitle(mStepInstruction);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Log.i(TAG, "Index value from onCreate, savedInstance not null, Media Activity" + mIndex);
+            //Log.i(TAG, "Index value from onCreate, savedInstance not null, Media Activity" + mIndex);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                Log.i(TAG, "onCreate: Bundle is not null");
+                //Log.i(TAG, "onCreate: Bundle is not null");
                 mStep = bundle.getParcelableArrayList(STEPS);
-                Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
+                //Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
                 mTitle = mStep.get(mIndex).getShortDescription();
                 mIndex = bundle.getInt(INDEX_VALUE);
 
@@ -66,7 +66,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             args.putString(STEP_DESCRIPTION, mStepInstruction);
             args.putString(STEP_VIDEO, mVideoURL);
             args.putInt(INDEX_VALUE, mIndex);
-            Log.i(TAG, "Inside recipe ingredient step video instruction detail : " + mStepInstruction);
+            //Log.i(TAG, "Inside recipe ingredient step video instruction detail : " + mStepInstruction);
             StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
             stepVideoAndInstructionFragment.setArguments(args);
             // Add the fragment to its container using a FragmentManager and a Transaction
@@ -79,20 +79,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        Log.i(TAG, "onAttachFragment " + mIndex);
         fragment.getArguments();
-        Log.i(TAG, "onAttachFragment " + mIndex);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onAttachFragment(android.app.Fragment fragment) {
-        super.onAttachFragment(fragment);
-        Log.i(TAG, "Index value from onAttachFragment: " + mIndex);
     }
 
     @Override
@@ -105,6 +92,6 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
         this.mStep = stepArrayList;
         this.mIndex = index;
         this.mVideoURL = videoURL;
-        Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on activity: " + mIndex);
+        //Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on activity: " + mIndex);
     }
 }

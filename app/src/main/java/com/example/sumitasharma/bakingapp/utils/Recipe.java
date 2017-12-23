@@ -34,17 +34,17 @@ public class Recipe implements Parcelable {
 
     }
 
-    protected Recipe(Parcel in) {
+    private Recipe(Parcel in) {
         id = in.readInt();
         name = in.readString();
         if (in.readByte() == 0x01) {
-            ingredients = new ArrayList<Ingredient>();
+            ingredients = new ArrayList<>();
             in.readList(ingredients, Ingredient.class.getClassLoader());
         } else {
             ingredients = null;
         }
         if (in.readByte() == 0x01) {
-            steps = new ArrayList<Step>();
+            steps = new ArrayList<>();
             in.readList(steps, Step.class.getClassLoader());
         } else {
             steps = null;
