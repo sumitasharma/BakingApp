@@ -47,9 +47,6 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
             Picasso.with(mContext).load(mStep.get(position).getThumbnailURL()).into(holder.mThumbnail);
             Log.i(TAG, "Position:" + position + "Thumbnail:" + mStep.get(position).getThumbnailURL());
 
-
-            // SHOW AMIT THE ERROR
-
         } else {
             Picasso.with(mContext).load(DEFAULT_THUMBNAIL).into(holder.mThumbnail);
         }

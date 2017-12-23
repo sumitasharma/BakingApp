@@ -20,11 +20,11 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 public class BakingAppMediaAndInstructionActivity extends AppCompatActivity implements StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState {
 
     private static final String TAG = BakingAppMediaAndInstructionActivity.class.getSimpleName();
-    public int mIndex = 0;
+    int mIndex = 0;
     String mStepInstruction = null;
     String mVideoURL = null;
+    String mTitle;
     private ArrayList<Step> mStep;
-    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

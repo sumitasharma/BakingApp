@@ -41,7 +41,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
     public BakingAppMediaAndInstructionActivity activity;
-    public PutTheTitle mPutTheTitle;
+    public PutTheDataInActivity mPutTheDataToActivity;
     RecyclerView backingDetailAppRecyclerView;
     Context mContext;
     boolean mTwoPane;
@@ -49,8 +49,8 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     String mTitle;
     Activity mActivity;
     onStepClickedListener mCallback;
-    private ArrayList<Step> mStep = null;
-    private ArrayList<Ingredient> mIngredient = null;
+    ArrayList<Step> mStep = null;
+    ArrayList<Ingredient> mIngredient = null;
     private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
@@ -79,21 +79,21 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
         TextView ingredientTitleTextView = new TextView(mContext);
         ingredientTitleTextView.setTextSize(20);
-        ingredientTitleTextView.setText("Ingredients");
+        ingredientTitleTextView.setText(R.string.ingredients);
         ingredientTitleTextView.setPadding(20, 10, 250, 80);
         ingredientTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(ingredientTitleTextView);
 
         TextView measurementTitleTextView = new TextView(mContext);
         measurementTitleTextView.setTextSize(20);
-        measurementTitleTextView.setText("Measurement");
+        measurementTitleTextView.setText(R.string.measurement);
         measurementTitleTextView.setPadding(10, 10, 60, 80);
         measurementTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(measurementTitleTextView);
 
         TextView quantityTitleTextView = new TextView(mContext);
         quantityTitleTextView.setTextSize(20);
-        quantityTitleTextView.setText("Quantity");
+        quantityTitleTextView.setText(R.string.quantity);
         quantityTitleTextView.setPadding(5, 10, 5, 80);
         quantityTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(quantityTitleTextView);
@@ -161,7 +161,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "onAttach Called : " + activity);
         try {
             mCallback = (onStepClickedListener) context;
-            mPutTheTitle = (PutTheTitle) context;
+            mPutTheDataToActivity = (PutTheDataInActivity) context;
             //   mSendSavedInstanceToActivity = (SendSavedInstanceToActivity) context;
         } catch (ClassCastException e) {
             Log.i(TAG, "implement onStepClickedListener");
@@ -172,13 +172,13 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public void onResume() {
         super.onResume();
         Log.i(TAG, "Title on resume is :" + mTitle);
-        mPutTheTitle.giveTheTitle(mTitle);
+        mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        mPutTheTitle.giveTheTitle(mTitle);
+        mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
         Log.i(TAG, "twopane value got from onSaveInstanceState:" + mTwoPane);
         Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
-        mPutTheTitle.giveTheTitle(mTitle);
+        mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
 //        mSendSavedInstanceToActivity.PassSavedInstanceToActivity(mIndex,mStep,mTwoPane);
     }
 
@@ -228,8 +228,8 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane);
     }
 
-    public interface PutTheTitle {
-        void giveTheTitle(String title);
+    public interface PutTheDataInActivity {
+        void giveTheDataToActivity(String title, ArrayList<Step> stepArrayList, int index);
     }
 
 }

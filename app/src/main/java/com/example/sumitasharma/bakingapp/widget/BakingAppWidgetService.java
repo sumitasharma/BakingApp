@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class BakingAppWidgetService extends IntentService {
     private static final String CHANGE_RECIPE = "change_recipe";
-    int mIndex = 0;
     ArrayList<Recipe> mRecipe;
+    private int mIndex = 0;
 
     public BakingAppWidgetService() {
         super("BakingAppWidgetService");

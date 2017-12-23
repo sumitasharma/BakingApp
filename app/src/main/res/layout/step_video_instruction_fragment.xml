@@ -41,7 +41,7 @@
             android:layout_marginTop="110dp"
             android:background="@color/colorYellow"
             android:padding="20dp"
-            android:text="Video Not Available For This Step"
+            android:text="@string/video_not_available"
             android:textAlignment="center"
             android:textColor="@color/cardview_dark_background"
             android:textSize="25sp"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="Prev Step"
+                android:text="@string/prev_step"
                 android:textSize="15sp" />
 
             <Button
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="Next Step"
+                android:text="@string/next_step"
                 android:textSize="15sp" />
         </RelativeLayout>
 

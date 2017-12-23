@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class BakingAppWidgetProvider extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int index, ArrayList<Recipe> recipeArrayList,
-                                int appWidgetId) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int index, ArrayList<Recipe> recipeArrayList,
+                                        int appWidgetId) {
 
         Log.i("BakingAppWidgetProvider", "Inside updateAppWidget");
         // Construct the RemoteViews object

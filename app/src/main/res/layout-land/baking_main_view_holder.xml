@@ -5,19 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="4dp"
+    card_view:cardElevation="15dp"
     card_view:cardUseCompatPadding="true">
 
     <GridLayout
+        android:id="@+id/baking_app_main_grid_layout_landscape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FCE4EC"
+        android:background="@color/colorPink"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/baking_main_view_image"
-            android:layout_width="300dp"
-            android:layout_height="300dp" />
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:contentDescription="@null" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -29,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="150dp"
-                android:paddingTop="80dp"
+                android:paddingTop="20dp"
+                android:textAppearance="@color/colorPrimary"
                 android:textSize="25sp"
                 android:textStyle="bold|italic" />
 
@@ -37,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="175dp"
-                android:paddingTop="50dp"
-                android:text="Serves..."
+                android:paddingTop="15dp"
+                android:text="@string/serves"
                 android:textAppearance="@color/colorPrimaryDark"
                 android:textSize="20sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/baking_main_view_serving"
@@ -49,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="190dp"
                 android:paddingTop="10dp"
+                android:textAppearance="@color/colorPrimaryDark"
                 android:textSize="20sp" />
         </LinearLayout>
 

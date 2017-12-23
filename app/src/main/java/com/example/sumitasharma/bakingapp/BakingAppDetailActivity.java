@@ -30,17 +30,16 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
  * a Tablet.
  */
 
-public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState, IngredientAndStepFragment.PutTheTitle {
+public class BakingAppDetailActivity extends AppCompatActivity implements IngredientAndStepFragment.onStepClickedListener, StepVideoAndInstructionFragment.PassTitle, StepVideoAndInstructionFragment.PassSavedInstanceState, IngredientAndStepFragment.PutTheDataInActivity {
 
     private final static String TAG = BakingAppDetailActivity.class.getSimpleName();
-    public int mIndex = 0;
+    int mIndex = 0;
     String mVideoURL = null;
     private boolean mTwoPane = false;
     private ArrayList<Step> mStep;
     private String mTitle;
-
+    private String mTwoPaneTitle;
     //private StepVideoAndInstructionFragment mStepVideoAndInstructionFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +48,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         Recipe mRecipe = null;
         Bundle bundle = this.getIntent().getExtras();
         Log.i(TAG, "onCreate called");
+
         if (findViewById(R.id.recipe_tablet_linear_layout) != null) {
             //Checking if it is a tablet
             Log.i(TAG, "Found Tablet interface, setting twoPane to true");
@@ -73,6 +73,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             mRecipe = bundle.getParcelable(RECIPE_OBJECT);
             mTitle = mRecipe.getName();
             getSupportActionBar().setTitle(mTitle);
+            mTwoPaneTitle = mRecipe.getName();
             mStep = mRecipe.getSteps();
             Log.i(TAG, "mIndex value got from bundle:" + mIndex);
             Log.i(TAG, "mTwoPane value got from bundle:" + mTwoPane);
@@ -89,10 +90,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
 
             if (mTwoPane) {
-
-                getSupportActionBar().setTitle(mTitle);
-
-
+                getSupportActionBar().setTitle(mTwoPaneTitle);
                 Log.i(TAG, "Sending data to StepVideoAndInstructionFragment, mIndex" + mIndex + ",mTwoPane:" + mTwoPane);
                 Log.i(TAG, "mTwoPane value got from Tablet StepVideoAndInstructionFragment:" + mTwoPane);
                 Bundle argsForVideoAndInstruction = new Bundle();
@@ -181,7 +179,10 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
     @Override
     public void sendTitleForActionBar(String title) {
-        getSupportActionBar().setTitle(title);
+        if (mTwoPane)
+            getSupportActionBar().setTitle(mTwoPaneTitle);
+        else
+            getSupportActionBar().setTitle(title);
     }
 
     @Override
@@ -195,11 +196,20 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
     }
 
     @Override
-    public void giveTheTitle(String title) {
+    public void giveTheDataToActivity(String title, ArrayList<Step> stepArrayList, int index) {
         this.mTitle = title;
-        Log.i(TAG, "Title recieved :" + mTitle);
+        this.mStep = stepArrayList;
+        this.mIndex = index;
+
+        if (mTwoPane)
+            getSupportActionBar().setTitle(mTwoPaneTitle);
+        else
+            getSupportActionBar().setTitle(title);
+
     }
-//
+
+
+    //
 //    @Override
 //    public void giveTheTitle(String title) {
 //        mTitle = title;
@@ -219,6 +229,5 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 //    public void onSaveInstanceState(Bundle outState) {
 //        outState.putString(TITLE,mTitle);
 //    }
-
 
 }

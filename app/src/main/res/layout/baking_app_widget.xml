@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp"
-        android:text="Baking Time"
+        android:text="@string/baking_time"
         android:textSize="15sp"
         android:textStyle="bold|italic" />
 
@@ -17,6 +17,7 @@
         android:id="@+id/baking_app_widget_image_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:contentDescription="@null"
         android:previewImage="@drawable/birthday_cupcakes" />
 
 </LinearLayout>

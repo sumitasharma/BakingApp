@@ -26,15 +26,16 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     private static final String TAG = BakingAppMainActivity.class.getSimpleName();
     private final LoaderManager.LoaderCallbacks<String[]> callback = BakingAppMainActivity.this;
-    public int mLoaderId = 101;
-    RecyclerView bakingAppRecyclerView;
+    int mLoaderId = 101;
     Context mContext;
+    RecyclerView bakingAppRecyclerView;
     private ArrayList<Recipe> mRecipe = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_baking);
+
         bakingAppRecyclerView = (RecyclerView) findViewById(R.id.baking_app_main_recycler_view);
         if (getResources().getBoolean(R.bool.isTablet)) {
             bakingAppRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -44,7 +45,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
         initializeLoader(mLoaderId, this);
     }
 
-    public void initializeLoader(int loaderId, Context context) {
+    private void initializeLoader(int loaderId, Context context) {
         Log.i(TAG, "Inside initializeLoader");
         this.mLoaderId = loaderId;
         this.mContext = context;
@@ -69,7 +70,6 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     public void onLoadFinished(Loader loader, Object data) {
         if (!isOnline()) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
-            return;
         } else {
 //        Log.i(TAG, "Inside onLoadFinished in BakingAppMainActivity" + mRecipe.get(0).getName());
             //ImageView bakingImage = (ImageView) findViewById(R.id.baking_main_view_image);

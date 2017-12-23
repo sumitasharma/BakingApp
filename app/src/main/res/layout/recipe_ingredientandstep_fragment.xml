@@ -29,7 +29,7 @@
                     android:paddingBottom="15dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="15dp"
-                    android:text="Ingredients"
+                    android:text="@string/ingredients"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="italic|bold" />
@@ -40,7 +40,7 @@
                     android:paddingBottom="15dp"
                     android:paddingLeft="40dp"
                     android:paddingTop="15dp"
-                    android:text="Quantity"
+                    android:text="@string/quantity"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="italic|bold" />
@@ -51,7 +51,7 @@
                     android:paddingBottom="15dp"
                     android:paddingLeft="50dp"
                     android:paddingTop="15dp"
-                    android:text="Measurement"
+                    android:text="@string/measurement"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
                     android:textStyle="italic|bold" />
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="Steps"
+        android:text="@string/steps"
         android:textColor="@color/cardview_light_background"
         android:textSize="25sp"
         android:textStyle="italic|bold" />

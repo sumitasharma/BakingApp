@@ -44,13 +44,13 @@ public class StepVideoAndInstructionFragment extends Fragment {
     public PassSavedInstanceState mPassSavedInstanceState;
     Context mContext = getContext();
     int mIndex;
+    Button mPrevStepButton;
+    Button mNextStepButton;
     private boolean mPlayWhenReady = true;
     private int mCurrentWindow;
     private long mPlaybackPosition;
     private String mVideo = null;
     private ArrayList<Step> mStep;
-    private Button mPrevStepButton;
-    private Button mNextStepButton;
     private TextView mStepInstructionTextView;
     private SimpleExoPlayer mStepVideoPlayer;
     private SimpleExoPlayerView mStepVideoPlayerView;
@@ -236,7 +236,8 @@ public class StepVideoAndInstructionFragment extends Fragment {
         super.onResume();
         Log.i(TAG, "onResume Called, sendingSavedInstance data, mIndex:" + mIndex);
         mPassSavedInstanceState.sendPassSavedInstanceState(mIndex, mStep, mVideo, mTwoPane);
-        mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
+        if (!mTwoPane)
+            mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
         Log.i(TAG, "Index value onClick onResume " + mIndex);
         // hideSystemUi();
         if ((Util.SDK_INT <= 23 || mStepVideoPlayer == null)) {
