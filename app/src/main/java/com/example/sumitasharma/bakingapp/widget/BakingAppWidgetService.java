@@ -12,10 +12,11 @@ import com.example.sumitasharma.bakingapp.utils.BakingUtils;
 import com.example.sumitasharma.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class BakingAppWidgetService extends IntentService {
-    private static final String CHANGE_RECIPE = "change_recipe";
+    private static final String ACTION_DISPLAY_RECIPE_INGREDIENTS = "com.example.sumitasharma.bakingapp.action.display_ingredients";
     private ArrayList<Recipe> mRecipe;
     private int mIndex = 0;
 
@@ -25,35 +26,41 @@ public class BakingAppWidgetService extends IntentService {
 
     public static void startActionUpdateBakingApp(Context context) {
         Intent intent = new Intent(context, BakingAppWidgetService.class);
-        intent.setAction(CHANGE_RECIPE);
+        intent.setAction(ACTION_DISPLAY_RECIPE_INGREDIENTS);
         context.startService(intent);
     }
 
-    private void getRecipeObjectFromJSON() {
+    private void handleActionDisplayRecipeIngredients() {
+        int mRecipeIndex;
+        ArrayList<Recipe> mRecipeArrayList = null;
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidgetProvider.class));
+        Log.i("BakingAppWidgetService", "Inside handleActionDisplayRecipeIngredients");
+
         try {
-            mRecipe = BakingUtils.convertJsonToRecipeObjects();
+            mRecipeArrayList = BakingUtils.convertJsonToRecipeObjects();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        int max = mRecipeArrayList.size();
+        Random random = new Random();
+        mRecipeIndex = random.nextInt(max);
+
+        Log.i("BakingAppWidgetService", "Adding randomIndex before calling Provider: " + mRecipeIndex);
+
+        BakingAppWidgetProvider.updateBakingAppWidget(this, appWidgetManager, mRecipeIndex, mRecipeArrayList, appWidgetIds);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
-            if (CHANGE_RECIPE.equals(intent.getAction())) {
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-                int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidgetProvider.class));
-                //Now update all widgets
-                getRecipeObjectFromJSON();
-                if (mIndex < mRecipe.size())
-                    mIndex++;
-                else
-                    mIndex = 0;
-                Log.i("", "recipe and index" + mRecipe);
-                BakingAppWidgetProvider.updateBakingAppWidget(this, appWidgetManager, mIndex, mRecipe, appWidgetIds);
+            if (ACTION_DISPLAY_RECIPE_INGREDIENTS.equals(intent.getAction())) {
+                handleActionDisplayRecipeIngredients();
             }
 
         }
 
     }
 }
+
+

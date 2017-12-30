@@ -18,47 +18,54 @@
         <ImageView
             android:id="@+id/baking_main_view_image"
             android:layout_width="200dp"
-            android:layout_height="150dp"
+            android:layout_height="180dp"
+            android:layout_columnWeight=".5"
             android:contentDescription="@null" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_columnWeight=".5"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/baking_main_view_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="150dp"
-                android:paddingRight="5dp"
-                android:paddingTop="20dp"
+                android:layout_gravity="center"
+                android:paddingTop="50dp"
                 android:textAppearance="@color/colorPrimary"
                 android:textSize="25sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold|italic"
+                android:typeface="serif" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="175dp"
-                android:paddingRight="2dp"
-                android:paddingTop="15dp"
-                android:text="@string/serves"
-                android:textAppearance="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:textStyle="italic" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/baking_main_view_serving"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="190dp"
-                android:paddingRight="2dp"
-                android:paddingTop="10dp"
-                android:textAppearance="@color/colorPrimaryDark"
-                android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="25dp"
+                    android:text="@string/serves"
+                    android:textAppearance="@color/colorPrimaryDark"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/baking_main_view_serving"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="25dp"
+                    android:textAppearance="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+            </LinearLayout>
         </LinearLayout>
 
     </GridLayout>
 
 </android.support.v7.widget.CardView>
+
+

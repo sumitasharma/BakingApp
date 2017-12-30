@@ -60,18 +60,19 @@
 
             <Button
                 android:id="@+id/prev_step"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:text="@string/prev_step"
                 android:textSize="15sp" />
 
             <Button
                 android:id="@+id/next_step"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
                 android:text="@string/next_step"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -94,3 +95,5 @@
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
+
+

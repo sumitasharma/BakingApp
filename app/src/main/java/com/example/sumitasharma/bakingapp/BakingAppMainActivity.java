@@ -63,7 +63,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         Log.i(TAG, "Inside onCreateLoader for Baking App Main Activity");
-        return new BakingAppMainLoader(this, bakingAppRecyclerView, mRecipe, this, this);
+        return new BakingAppMainLoader(this, mRecipe, this);
     }
 
     @Override
@@ -129,3 +129,5 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     }
 
 }
+
+

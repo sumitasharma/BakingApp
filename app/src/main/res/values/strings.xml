@@ -5,8 +5,10 @@
     <string name="ingredients">Ingredients</string>
     <string name="quantity">Quantity</string>
     <string name="measurement">Measurement</string>
-    <string name="steps">Steps</string>
     <string name="video_not_available">Video Not Available For This Step</string>
     <string name="prev_step">Prev Step</string>
     <string name="next_step">Next Step</string>
+    <string name="baking_main_view_image_description">Baking Recipes</string>
 </resources>
+
+

@@ -5,19 +5,26 @@
     android:padding="@dimen/widget_margin">
 
     <TextView
-        android:id="@+id/baking_app_widget_text_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/baking_app_recipe_title_text_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
-        android:text="@string/baking_time"
-        android:textSize="15sp"
-        android:textStyle="bold|italic" />
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorYellow"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/baking_app_widget_image_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:contentDescription="@null"
-        android:previewImage="@drawable/birthday_cupcakes" />
+
+    <TextView
+        android:id="@+id/baking_app_widget_ingredient_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
 
 </LinearLayout>
+
+

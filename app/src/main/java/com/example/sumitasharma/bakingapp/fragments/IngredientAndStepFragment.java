@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sumitasharma.bakingapp.BakingAppMediaAndInstructionActivity;
 import com.example.sumitasharma.bakingapp.R;
 import com.example.sumitasharma.bakingapp.adapter.RecipeStepsAdapter;
 import com.example.sumitasharma.bakingapp.utils.Ingredient;
-import com.example.sumitasharma.bakingapp.utils.Recipe;
 import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
@@ -40,8 +39,8 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
 public class IngredientAndStepFragment extends Fragment implements RecipeStepsAdapter.RecipeStepsClickListener {
 
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
-    public BakingAppMediaAndInstructionActivity activity;
-    Activity mActivity;
+    //public BakingAppMediaAndInstructionActivity activity;
+    //Activity mActivity;
     private PutTheDataInActivity mPutTheDataToActivity;
     private RecyclerView backingDetailAppRecyclerView;
     private Context mContext;
@@ -51,7 +50,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     private onStepClickedListener mCallback;
     private ArrayList<Step> mStep = null;
     private ArrayList<Ingredient> mIngredient = null;
-    private Recipe mRecipe = null;
+    //private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
 
@@ -78,48 +77,74 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         TextView ingredientTitleTextView = new TextView(mContext);
         ingredientTitleTextView.setTextSize(20);
         ingredientTitleTextView.setText(R.string.ingredients);
-        ingredientTitleTextView.setPadding(25, 10, 200, 80);
+        ingredientTitleTextView.setGravity(Gravity.START);
+        ingredientTitleTextView.setPadding(20, 10, 80, 10);
+        ingredientTitleTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
         ingredientTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(ingredientTitleTextView);
 
         TextView quantityTitleTextView = new TextView(mContext);
         quantityTitleTextView.setTextSize(20);
         quantityTitleTextView.setText(R.string.quantity);
-        quantityTitleTextView.setPadding(5, 10, 80, 80);
+        quantityTitleTextView.setGravity(Gravity.CENTER);
+        quantityTitleTextView.setPadding(20, 10, 80, 10);
+        quantityTitleTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
         quantityTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(quantityTitleTextView);
 
         TextView measurementTitleTextView = new TextView(mContext);
         measurementTitleTextView.setTextSize(20);
         measurementTitleTextView.setText(R.string.measurement);
+        measurementTitleTextView.setGravity(Gravity.END);
         measurementTitleTextView.setPadding(10, 10, 10, 80);
+        measurementTitleTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
         measurementTitleTextView.setTypeface(null, Typeface.BOLD_ITALIC);
         ingredientTitleRow.addView(measurementTitleTextView);
 
 
         ingredientsTableLayout.addView(ingredientTitleRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-
+        int i = 1;
         // Populating the rows with the Ingredient data
         for (Ingredient ingredient : mIngredient) {
+
             TableRow ingredientTableRow = new TableRow(mContext);
             ingredientTableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+
             TextView ingredientTextView = new TextView(mContext);
+            ingredientTextView.setTextSize(15);
+            ingredientTextView.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+            ingredientTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
             String ingredientCapital = String.valueOf(ingredient.getIngredient().charAt(0)).toUpperCase() + ingredient.getIngredient().substring(1, ingredient.getIngredient().length());
-            ingredientTextView.setText(ingredientCapital);
-            ingredientTextView.setMaxWidth(250);
-            ingredientTextView.setPadding(30, 10, 170, 0);
-            ingredientTextView.setTypeface(null, Typeface.BOLD_ITALIC);
+            ingredientTextView.setText("" + i++ + ".  ");
+            ingredientTextView.append(ingredientCapital);
+            ingredientTextView.setMaxWidth(300);
+            ingredientTextView.setPadding(20, 10, 10, 10);
+            ingredientTextView.setGravity(Gravity.START);
+
+
             TextView quantityTextView = new TextView(mContext);
+            quantityTextView.setTextSize(15);
             quantityTextView.setText(ingredient.getQuantity());
-            quantityTextView.setPadding(30, 10, 150, 0);
+            quantityTextView.setGravity(Gravity.CENTER);
             quantityTextView.setTypeface(null, Typeface.BOLD_ITALIC);
+            quantityTextView.setPadding(20, 10, 10, 10);
+            quantityTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
+
+
             TextView measurementTextView = new TextView(mContext);
+            measurementTextView.setTextSize(15);
             measurementTextView.setText(ingredient.getMeasure());
-            measurementTitleTextView.setPadding(30, 10, 10, 0);
             measurementTextView.setTypeface(null, Typeface.BOLD_ITALIC);
+            measurementTextView.setPadding(20, 10, 120, 10);
+            measurementTextView.setGravity(Gravity.END);
+            measurementTextView.setTextColor(getResources().getColor(R.color.cardview_dark_background));
+
+
             ingredientTableRow.addView(ingredientTextView);
             ingredientTableRow.addView(quantityTextView);
             ingredientTableRow.addView(measurementTextView);
+
             ingredientsTableLayout.addView(ingredientTableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
             Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
@@ -152,6 +177,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         super.onResume();
         Log.i(TAG, "Title on resume is :" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
+
     }
 
     @Override
@@ -204,3 +230,4 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     }
 
 }
+

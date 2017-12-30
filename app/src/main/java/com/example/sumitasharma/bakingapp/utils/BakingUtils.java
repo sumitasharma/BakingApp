@@ -1,7 +1,6 @@
 package com.example.sumitasharma.bakingapp.utils;
 
 import android.net.Uri;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,9 +18,10 @@ import java.util.Scanner;
  */
 
 public class BakingUtils {
-    public static final String RECIPE_ID = "recipe_id";
+    //public static final String RECIPE_ID = "recipe_id";
     public static final String TITLE = "title";
     public static final String RECIPE_OBJECT = "RECIPE_OBJECT";
+    public static final String WIDGET_RECIPE_OBJECT = "WIDGET_RECIPE_OBJECT";
     public static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
     public static final String INDEX_VALUE = "index_value";
     public static final String STEPS = "steps";
@@ -126,9 +126,9 @@ public class BakingUtils {
             recipe.setSteps(stepArray);
             results.add(recipe);
         }
-        for (Recipe result : results) {
-            Log.i(TAG, "Recipe Name:" + result.getName());
-        }
+//        for (Recipe result : results) {
+//            Log.i(TAG, "Recipe Name:" + result.getName());
+//        }
         return results;
     }
 
@@ -142,3 +142,5 @@ public class BakingUtils {
 
 
 }
+
+

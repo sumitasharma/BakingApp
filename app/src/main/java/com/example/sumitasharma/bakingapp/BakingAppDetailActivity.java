@@ -20,6 +20,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIEN
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.WIDGET_RECIPE_OBJECT;
 
 
 /**
@@ -34,7 +35,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
     private final static String TAG = BakingAppDetailActivity.class.getSimpleName();
     private int mIndex = 0;
-    private String mVideoURL = null;
+    //private String mVideoURL = null;
     private boolean mTwoPane = false;
     private ArrayList<Step> mStep;
     private String mTitle;
@@ -51,17 +52,19 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         //Checking if it is a tablet
         mTwoPane = findViewById(R.id.recipe_tablet_linear_layout) != null;
         if (savedInstanceState != null) {
-            //Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
+            Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
             mTitle = savedInstanceState.getString(TITLE);
         } else {
-            //Log.i(TAG, "Bundle is not null, Getting data from bundle");
+            Log.i(TAG, "Bundle is not null, Getting data from bundle");
             if (bundle != null) {
                 mRecipe = bundle.getParcelable(RECIPE_OBJECT);
+                if (mRecipe == null)
+                    mRecipe = bundle.getParcelable(WIDGET_RECIPE_OBJECT);
                 mTitle = mRecipe.getName();
+                Log.i(TAG, "Title Received in BakingAppDetailActivity:" + mTitle);
                 getSupportActionBar().setTitle(mTitle);
-
                 mTwoPaneTitle = mRecipe.getName();
                 mStep = mRecipe.getSteps();
                 IngredientAndStepFragment ingredientAndStepFragment = new IngredientAndStepFragment();
@@ -144,7 +147,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
     public void sendPassSavedInstanceState(int index, ArrayList<Step> stepArrayList, String videoURL, boolean mTwoPane) {
         this.mStep = stepArrayList;
         this.mIndex = index;
-        this.mVideoURL = videoURL;
+        //this.mVideoURL = videoURL;
         this.mTwoPane = mTwoPane;
     }
 
@@ -160,4 +163,7 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             getSupportActionBar().setTitle(title);
 
     }
+
 }
+
+
