@@ -2,8 +2,6 @@ package com.example.sumitasharma.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,6 +19,7 @@ import com.example.sumitasharma.bakingapp.utils.Recipe;
 import java.util.ArrayList;
 
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 
 public class BakingAppMainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks, BakingAppMainLoader.AsyncResponse, BakingAppClickListener {
 
@@ -68,7 +67,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        if (!isOnline()) {
+        if (!isOnline(mContext)) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         } else {
             BakingAppMainAdapter bakingAppMainAdapter = new BakingAppMainAdapter(mContext, this, mRecipe);
@@ -83,7 +82,6 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onClickBakeCard(int bakeCardPosition) {
-        //Log.i(TAG, "onClickBakeCard : bakecardposition " + bakeCardPosition);
         //String recipeId = String.valueOf(mRecipe.get(bakeCardPosition).getId());
         Intent intent = new Intent();
         Bundle b = new Bundle();
@@ -95,7 +93,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void processFinish(ArrayList<Recipe> recipes) {
-        if (isOnline()) {
+        if (isOnline(mContext)) {
             this.mRecipe = recipes;
         }
     }
@@ -103,7 +101,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isOnline()) {
+        if (!isOnline(mContext)) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
             return;
         }
@@ -116,17 +114,6 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
         getSupportLoaderManager().restartLoader(this.mLoaderId, null, callback);
     }
 
-    /**
-     * Checks Internet Connectivity
-     *
-     * @return true if the Internet Connection is available, false otherwise.
-     */
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
 
 }
 

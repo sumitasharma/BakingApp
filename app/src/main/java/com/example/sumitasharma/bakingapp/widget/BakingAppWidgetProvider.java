@@ -24,11 +24,8 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.WIDGET_RECIPE
  */
 public class BakingAppWidgetProvider extends AppWidgetProvider {
 
-    int mRecipeIndex;
-    ArrayList<Recipe> mRecipeArrayList;
-
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int index, ArrayList<Recipe> recipeArrayList,
-                                int appWidgetId) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int index, ArrayList<Recipe> recipeArrayList,
+                                        int appWidgetId) {
 
         Log.i("BakingAppWidgetProvider", "Inside updateAppWidget");
         // Construct the RemoteViews object
@@ -46,8 +43,9 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
         int i = 1;
         for (Ingredient ingredientText : ingredientArrayList) {
             ingredient.append("\n");
-            ingredient.append(i + "  ");
-            StringBuffer ingredientTextCapital = new StringBuffer(String.valueOf(ingredientText.getIngredient().charAt(0)).toUpperCase() + ingredientText.getIngredient().substring(1, ingredientText.getIngredient().length()));
+            ingredient.append(i);
+            ingredient.append("  ");
+            StringBuilder ingredientTextCapital = new StringBuilder(String.valueOf(ingredientText.getIngredient().charAt(0)).toUpperCase() + ingredientText.getIngredient().substring(1, ingredientText.getIngredient().length()));
             ingredient.append(ingredientTextCapital);
             i++;
 //            quantity.append("\n");

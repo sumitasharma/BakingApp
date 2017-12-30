@@ -17,8 +17,6 @@ import java.util.Random;
 
 public class BakingAppWidgetService extends IntentService {
     private static final String ACTION_DISPLAY_RECIPE_INGREDIENTS = "com.example.sumitasharma.bakingapp.action.display_ingredients";
-    private ArrayList<Recipe> mRecipe;
-    private int mIndex = 0;
 
     public BakingAppWidgetService() {
         super("BakingAppWidgetService");
@@ -32,6 +30,7 @@ public class BakingAppWidgetService extends IntentService {
 
     private void handleActionDisplayRecipeIngredients() {
         int mRecipeIndex;
+        int max = 0;
         ArrayList<Recipe> mRecipeArrayList = null;
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidgetProvider.class));
@@ -42,7 +41,9 @@ public class BakingAppWidgetService extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int max = mRecipeArrayList.size();
+        if (mRecipeArrayList != null) {
+            max = mRecipeArrayList.size();
+        }
         Random random = new Random();
         mRecipeIndex = random.nextInt(max);
 

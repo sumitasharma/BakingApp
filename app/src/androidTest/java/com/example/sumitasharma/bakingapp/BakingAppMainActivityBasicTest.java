@@ -73,7 +73,6 @@ public class BakingAppMainActivityBasicTest {
         onView(ViewMatchers.withId(R.id.step_instruction_text_view)).check(matches(withText(containsString("Recipe Introduction"))));
 
         // Checks that the correct message is displayed for video not available
-        //onView(ViewMatchers.withId(R.id.step_video_player_view)).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.step_video_player_view), withClassName(CoreMatchers.is(SimpleExoPlayerView.class.getName()))));
 
 

@@ -1,8 +1,6 @@
 package com.example.sumitasharma.bakingapp.loader;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -16,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 
 
 public class BakingAppMainLoader extends AsyncTaskLoader<String> {
@@ -32,19 +31,6 @@ public class BakingAppMainLoader extends AsyncTaskLoader<String> {
         //Log.i(TAG, "Constructor called. BakingLoader called");
     }
 
-    /**
-     * Checks Internet Connectivity
-     *
-     * @return true if the Internet Connection is available, false otherwise.
-     */
-    private boolean isOnline() {
-
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-
-    }
 
     @Override
     protected void onStartLoading() {
@@ -71,7 +57,7 @@ public class BakingAppMainLoader extends AsyncTaskLoader<String> {
 
     @Override
     public String loadInBackground() {
-        if (!isOnline())
+        if (!isOnline(mContext))
             return null;
         URL bakingURL = BakingUtils.buildUrl();
         try {

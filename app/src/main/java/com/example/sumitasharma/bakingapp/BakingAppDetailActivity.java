@@ -20,7 +20,6 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIEN
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
-import static com.example.sumitasharma.bakingapp.utils.BakingUtils.WIDGET_RECIPE_OBJECT;
 
 
 /**
@@ -60,13 +59,13 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
             Log.i(TAG, "Bundle is not null, Getting data from bundle");
             if (bundle != null) {
                 mRecipe = bundle.getParcelable(RECIPE_OBJECT);
-                if (mRecipe == null)
-                    mRecipe = bundle.getParcelable(WIDGET_RECIPE_OBJECT);
-                mTitle = mRecipe.getName();
-                Log.i(TAG, "Title Received in BakingAppDetailActivity:" + mTitle);
+                if (mRecipe != null) {
+                    mTitle = mRecipe.getName();
+                    Log.i(TAG, "Title Received in BakingAppDetailActivity:" + mTitle);
+                    mTwoPaneTitle = mRecipe.getName();
+                    mStep = mRecipe.getSteps();
+                }
                 getSupportActionBar().setTitle(mTitle);
-                mTwoPaneTitle = mRecipe.getName();
-                mStep = mRecipe.getSteps();
                 IngredientAndStepFragment ingredientAndStepFragment = new IngredientAndStepFragment();
                 Bundle argsForIngredientsAndSteps = new Bundle();
                 argsForIngredientsAndSteps.putParcelableArrayList(KEY_INGREDIENT, mRecipe.getIngredients());

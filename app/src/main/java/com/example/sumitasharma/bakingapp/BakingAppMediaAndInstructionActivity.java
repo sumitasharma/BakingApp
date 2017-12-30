@@ -34,11 +34,10 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
 
-            try {
-                //Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
+
+            //Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
+            if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(mStepInstruction);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             //Log.i(TAG, "Index value from onCreate, savedInstance not null, Media Activity" + mIndex);
         } else {
@@ -46,21 +45,25 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             if (bundle != null) {
                 //Log.i(TAG, "onCreate: Bundle is not null");
                 mStep = bundle.getParcelableArrayList(STEPS);
-                //Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
-                mTitle = mStep.get(mIndex).getShortDescription();
                 mIndex = bundle.getInt(INDEX_VALUE);
+                //Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
+                if (mStep != null) {
+                    mTitle = mStep.get(mIndex).getShortDescription();
+                }
 
             } else {
                 Log.i(TAG, "onCreate: Bundle is null");
             }
-            mStepInstruction = mStep.get(mIndex).getDescription();
-            if (mStepInstruction.isEmpty())
-                getSupportActionBar().setTitle(mStep.get(mIndex).getShortDescription());
-            else
-                getSupportActionBar().setTitle(mStepInstruction);
+            if (mStep != null) {
+                mStepInstruction = mStep.get(mIndex).getDescription();
+                if (mStepInstruction.isEmpty())
+                    getSupportActionBar().setTitle(mTitle);
+                else
+                    getSupportActionBar().setTitle(mStepInstruction);
 
 
-            mVideoURL = mStep.get(mIndex).getVideoURL();
+                mVideoURL = mStep.get(mIndex).getVideoURL();
+            }
             Bundle args = new Bundle();
             args.putParcelableArrayList(STEPS, mStep);
             args.putString(STEP_DESCRIPTION, mStepInstruction);
@@ -84,7 +87,8 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
 
     @Override
     public void sendTitleForActionBar(String title) {
-        getSupportActionBar().setTitle(title);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(title);
     }
 
     @Override

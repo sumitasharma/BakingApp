@@ -20,6 +20,9 @@
         android:id="@+id/baking_app_widget_ingredient_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bake_time"
+        android:backgroundTint="#90FFFFFF"
+        android:backgroundTintMode="src_over"
         android:padding="5dp"
         android:textSize="17sp"
         android:textStyle="bold" />

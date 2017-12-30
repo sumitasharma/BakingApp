@@ -1,5 +1,8 @@
 package com.example.sumitasharma.bakingapp.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
 import org.json.JSONArray;
@@ -29,7 +32,6 @@ public class BakingUtils {
     public final static String KEY_INGREDIENT = "ingredient";
     public static final String STEP_DESCRIPTION = "step_description";
     public static final String STEP_VIDEO = "step_video";
-    private static final String TAG = BakingUtils.class.getSimpleName();
     private final static String DEFAULT_BAKING_IMAGE_PATH = "https://cdn.pixabay.com/photo/2017/10/04/18/27/oven-baked-cheese-2817144_1280.jpg";
     private final static String CONTENT_JSON_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private final static String ID = "id";
@@ -87,7 +89,6 @@ public class BakingUtils {
         //Convert fullJsonMoviesData to JsonObject
         String urlResponse = null;
         URL jsonURL = buildUrl();
-        //Log.i(TAG, "Inside convertJsonToRecipeObjects in BakingUtils");
         try {
             urlResponse = getResponseFromHttpUrl(jsonURL);
         } catch (Exception e) {
@@ -126,9 +127,6 @@ public class BakingUtils {
             recipe.setSteps(stepArray);
             results.add(recipe);
         }
-//        for (Recipe result : results) {
-//            Log.i(TAG, "Recipe Name:" + result.getName());
-//        }
         return results;
     }
 
@@ -140,6 +138,20 @@ public class BakingUtils {
         return returnedImage;
     }
 
+    /**
+     * Checks Internet Connectivity
+     *
+     * @return true if the Internet Connection is available, false otherwise.
+     */
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            return netInfo != null && netInfo.isConnectedOrConnecting();
+        } else
+            return false;
+    }
 
 }
 

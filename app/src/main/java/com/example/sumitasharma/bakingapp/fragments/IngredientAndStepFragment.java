@@ -3,8 +3,6 @@ package com.example.sumitasharma.bakingapp.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +32,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.TITLE;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 
 
 public class IngredientAndStepFragment extends Fragment implements RecipeStepsAdapter.RecipeStepsClickListener {
@@ -42,14 +41,12 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     //public BakingAppMediaAndInstructionActivity activity;
     //Activity mActivity;
     private PutTheDataInActivity mPutTheDataToActivity;
-    private RecyclerView backingDetailAppRecyclerView;
     private Context mContext;
     private boolean mTwoPane;
     private int mIndex;
     private String mTitle;
     private onStepClickedListener mCallback;
     private ArrayList<Step> mStep = null;
-    private ArrayList<Ingredient> mIngredient = null;
     //private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
@@ -62,9 +59,8 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        // View rootView = inflater.inflate(R.layout.recipe_ingredientandstep_fragment, container, false);
         View rootView = inflater.inflate(R.layout.ingredients_and_step_fragment, container, false);
-        mIngredient = getArguments().getParcelableArrayList(KEY_INGREDIENT);
+        ArrayList<Ingredient> mIngredient = getArguments().getParcelableArrayList(KEY_INGREDIENT);
         mStep = getArguments().getParcelableArrayList(STEPS);
         mTwoPane = getArguments().getBoolean(IS_TABLET);
         mTitle = getArguments().getString(TITLE);
@@ -102,13 +98,13 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         ingredientTitleRow.addView(measurementTitleTextView);
 
 
-        ingredientsTableLayout.addView(ingredientTitleRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        ingredientsTableLayout.addView(ingredientTitleRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
         int i = 1;
         // Populating the rows with the Ingredient data
         for (Ingredient ingredient : mIngredient) {
 
             TableRow ingredientTableRow = new TableRow(mContext);
-            ingredientTableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            ingredientTableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
 
             TextView ingredientTextView = new TextView(mContext);
@@ -145,11 +141,11 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
             ingredientTableRow.addView(quantityTextView);
             ingredientTableRow.addView(measurementTextView);
 
-            ingredientsTableLayout.addView(ingredientTableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+            ingredientsTableLayout.addView(ingredientTableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
             Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
         }
-        backingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
+        RecyclerView backingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
         backingDetailAppRecyclerView.setHasFixedSize(true);
         backingDetailAppRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         RecipeStepsAdapter recipeStepsAdapter = new RecipeStepsAdapter(mContext, this, mStep);
@@ -192,16 +188,16 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         outState.putParcelableArrayList(STEPS, mStep);
         outState.putBoolean(IS_TABLET, mTwoPane);
         outState.putString(TITLE, mTitle);
-        Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
-        Log.i(TAG, "twopane value got from onSaveInstanceState:" + mTwoPane);
-        Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
+//        Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
+//        Log.i(TAG, "TwoPane value got from onSaveInstanceState:" + mTwoPane);
+//        Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
     }
 
 
     @Override
     public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
-        if (!isOnline()) {
+        if (!isOnline(mContext)) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         } else {
             mIndex = stepCardPosition;
@@ -209,17 +205,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         }
     }
 
-    /**
-     * Checks Internet Connectivity
-     *
-     * @return true if the Internet Connection is available, false otherwise.
-     */
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
 
     public interface onStepClickedListener {
         void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane);

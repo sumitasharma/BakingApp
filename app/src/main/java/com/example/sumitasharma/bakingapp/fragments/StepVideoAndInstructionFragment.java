@@ -1,8 +1,6 @@
 package com.example.sumitasharma.bakingapp.fragments;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +33,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 
 
 public class StepVideoAndInstructionFragment extends Fragment {
@@ -44,8 +43,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
     private PassSavedInstanceState mPassSavedInstanceState;
     private Context mContext = getContext();
     private int mIndex;
-    private Button mPrevStepButton;
-    private Button mNextStepButton;
     private boolean mPlayWhenReady = true;
     private int mCurrentWindow;
     private long mPlaybackPosition;
@@ -67,7 +64,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.step_video_instruction_fragment, container, false);
         mStepVideoPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_video_player_view);
-        String mInstruction = null;
         mVideoNotAvailableText = (TextView) rootView.findViewById(R.id.video_not_available);
         mStepVideoPlayerView.setVisibility(View.VISIBLE);
         mVideoNotAvailableText.setVisibility(View.INVISIBLE);
@@ -91,6 +87,8 @@ public class StepVideoAndInstructionFragment extends Fragment {
         // previous and next button.
 
 
+        Button mPrevStepButton;
+        Button mNextStepButton;
         if (rootView.findViewById(R.id.portrait_mode_linear_layout) != null || mTwoPane) {
             //Following is done if the mode is Portrait or Tablet
             //Log.i(TAG, "Found Phone in Portrait mode or Tablet");
@@ -102,7 +100,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
             mPrevStepButton.setVisibility(View.VISIBLE);
             mNextStepButton.setVisibility(View.VISIBLE);
             mStepInstructionTextView.setText(mStep.get(mIndex).getDescription());
-            // Log.i(TAG, "Inside fragment. Value of twopane is : " + mTwoPane);
             Log.i(TAG, "Index value received " + mIndex);
             mPrevStepButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,7 +172,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        if (!isOnline()) {
+        if (!isOnline(mContext)) {
             Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         }
         if (!mStep.get(mIndex).getVideoURL().isEmpty()) {
@@ -284,17 +281,6 @@ public class StepVideoAndInstructionFragment extends Fragment {
         mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
     }
 
-    /**
-     * Checks Internet Connectivity
-     *
-     * @return true if the Internet Connection is available, false otherwise.
-     */
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
 
     public interface PassTitle {
         void sendTitleForActionBar(String title);

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:background="@drawable/baking_app_image"
-        android:backgroundTint="#80FFFFFF"
+        android:backgroundTint="#90FFFFFF"
         android:backgroundTintMode="src_over">
 
         <android.support.design.widget.CollapsingToolbarLayout
