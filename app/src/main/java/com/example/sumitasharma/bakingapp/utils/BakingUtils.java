@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class BakingUtils {
     public static final String RECIPE_OBJECT = "recipe_object";
     public static final String WIDGET_RECIPE_OBJECT = "widget_recipe_object";
     public static final String PLAYER_POSITION = "player_position";
+    public static final String CURRENT_POSITION_RECYCLER_VIEW = "current_position_recycler_view";
+    public static final String CURRENT_EXPANDED_POSITION = "current_expanded_position";
     public static final String SAVED_LAYOUT_MANAGER = "saved_layout_manager";
     public static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
     public static final String INDEX_VALUE = "index_value";
@@ -134,7 +137,8 @@ public class BakingUtils {
 
     private static String getDefaultorActualImage(String imagePath) {
         String returnedImage = imagePath;
-        if (returnedImage.isEmpty()) {
+        if (TextUtils.isEmpty(returnedImage)) {
+            // if (returnedImage.isEmpty()) {
             returnedImage = DEFAULT_BAKING_IMAGE_PATH;
         }
         return returnedImage;

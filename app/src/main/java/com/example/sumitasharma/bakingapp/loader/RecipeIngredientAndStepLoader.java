@@ -3,7 +3,8 @@ package com.example.sumitasharma.bakingapp.loader;
 
 import android.content.Context;
 import android.content.Loader;
-import android.util.Log;
+
+import timber.log.Timber;
 
 class RecipeIngredientAndStepLoader extends Loader {
     private final static String TAG = RecipeIngredientAndStepLoader.class.getSimpleName();
@@ -26,7 +27,7 @@ class RecipeIngredientAndStepLoader extends Loader {
     protected void onStartLoading() {
         super.onStartLoading();
         forceLoad();
-        Log.i(TAG, "Inside onStartLoading Recipe");
+        Timber.i("Inside onStartLoading Recipe");
     }
 }
 

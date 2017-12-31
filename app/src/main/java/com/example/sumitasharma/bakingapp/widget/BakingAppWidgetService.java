@@ -30,7 +30,7 @@ public class BakingAppWidgetService extends IntentService {
 
     private void handleActionDisplayRecipeIngredients() {
         int mRecipeIndex;
-        int max = 0;
+        int max = 1;
         ArrayList<Recipe> mRecipeArrayList = null;
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingAppWidgetProvider.class));
@@ -48,8 +48,8 @@ public class BakingAppWidgetService extends IntentService {
         mRecipeIndex = random.nextInt(max);
 
         Log.i("BakingAppWidgetService", "Adding randomIndex before calling Provider: " + mRecipeIndex);
-
-        BakingAppWidgetProvider.updateBakingAppWidget(this, appWidgetManager, mRecipeIndex, mRecipeArrayList, appWidgetIds);
+        if (BakingUtils.isOnline(this))
+            BakingAppWidgetProvider.updateBakingAppWidget(this, appWidgetManager, mRecipeIndex, mRecipeArrayList, appWidgetIds);
     }
 
     @Override

@@ -22,7 +22,6 @@ package com.example.sumitasharma.bakingapp.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 
 public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdapter.RecyclerViewHolderBakeCard> {
     private final static String TAG = BakingAppMainAdapter.class.getSimpleName();
@@ -44,7 +45,8 @@ public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdap
 
 
     public BakingAppMainAdapter(Context context, BakingAppClickListener bakingAppClickListener, ArrayList<Recipe> recipe) {
-        Log.i(TAG, "Inside BakingAppMainAdapter");
+        // Timber.i( "Inside BakingAppMainAdapter");
+        Timber.i("Inside BakingAppMainAdapter");
         this.mContext = context;
         this.mRecipe = recipe;
         this.mBackingAppClickListener = bakingAppClickListener;
@@ -58,7 +60,8 @@ public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdap
 
     @Override
     public void onBindViewHolder(RecyclerViewHolderBakeCard holder, int position) {
-        Log.i(TAG, "mRecipe.get(position).getImage():" + mRecipe.get(position).getImage());
+        //  Timber.i( "mRecipe.get(position).getImage():" + mRecipe.get(position).getImage());
+        Timber.i("mRecipe.get(position).getImage():" + mRecipe.get(position).getImage());
         Picasso.with(mContext).load(mRecipe.get(position).getImage()).into(holder.mBakingMainImage);
         holder.mBakingMainName.setText(mRecipe.get(position).getName());
         holder.mBakingMainServing.setText(mRecipe.get(position).getServings());
@@ -66,7 +69,7 @@ public class BakingAppMainAdapter extends RecyclerView.Adapter<BakingAppMainAdap
 
     @Override
     public int getItemCount() {
-        //Log.i(TAG, "getItemCount Called. Size is:" + mRecipe.size());
+        //Timber.i( "getItemCount Called. Size is:" + mRecipe.size());
         return mRecipe.size();
     }
 

@@ -2,14 +2,15 @@ package com.example.sumitasharma.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.sumitasharma.bakingapp.adapter.BakingAppMainAdapter;
 import com.example.sumitasharma.bakingapp.adapter.BakingAppMainAdapter.BakingAppClickListener;
@@ -17,6 +18,8 @@ import com.example.sumitasharma.bakingapp.loader.BakingAppMainLoader;
 import com.example.sumitasharma.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.RECIPE_OBJECT;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
@@ -33,6 +36,7 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_baking);
 
         bakingAppRecyclerView = (RecyclerView) findViewById(R.id.baking_app_main_recycler_view);
@@ -45,7 +49,8 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     }
 
     private void initializeLoader(int loaderId, Context context) {
-        Log.i(TAG, "Inside initializeLoader");
+        // Timber.i( "Inside initializeLoader");
+        Timber.i("Inside initializeLoader");
         this.mLoaderId = loaderId;
         this.mContext = context;
         LoaderManager loaderManager = getSupportLoaderManager();
@@ -61,14 +66,20 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        Log.i(TAG, "Inside onCreateLoader for Baking App Main Activity");
+        //  Timber.i( "Inside onCreateLoader for Baking App Main Activity");
+        Timber.i("Inside onCreateLoader for Baking App Main Activity");
         return new BakingAppMainLoader(this, mRecipe, this);
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         if (!isOnline(mContext)) {
-            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.internet_connectivity,
+                    Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.BLUE);
+            // Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         } else {
             BakingAppMainAdapter bakingAppMainAdapter = new BakingAppMainAdapter(mContext, this, mRecipe);
             bakingAppRecyclerView.setAdapter(bakingAppMainAdapter);
@@ -102,7 +113,12 @@ public class BakingAppMainActivity extends AppCompatActivity implements LoaderMa
     protected void onResume() {
         super.onResume();
         if (!isOnline(mContext)) {
-            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.internet_connectivity,
+                    Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.BLUE);
+            //Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
             return;
         }
         getSupportLoaderManager().restartLoader(this.mLoaderId, null, callback);

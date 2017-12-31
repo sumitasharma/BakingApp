@@ -9,6 +9,7 @@
     <string name="prev_step">Prev Step</string>
     <string name="next_step">Next Step</string>
     <string name="baking_main_view_image_description">Baking Recipes</string>
+    <string name="internet_connectivity">Kindly check your Internet Connectivity</string>
 </resources>
 
 

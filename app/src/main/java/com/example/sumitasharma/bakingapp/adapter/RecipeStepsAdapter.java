@@ -4,7 +4,7 @@ package com.example.sumitasharma.bakingapp.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.DEFAULT_THUMBNAIL;
 
 public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.RecyclerViewHolderStepCard> {
@@ -27,7 +29,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     private final ArrayList<Step> mStep;
 
     public RecipeStepsAdapter(Context context, RecipeStepsClickListener recipeStepsClickListener, ArrayList<Step> step) {
-        Log.i(TAG, "Inside RecipeStepsAdapter Constructor");
+        //Timber.i( "Inside RecipeStepsAdapter Constructor");
+        Timber.i("Inside RecipeStepsAdapter Constructor");
         this.mContext = context;
         this.mStep = step;
         this.mRecipeStepsClickListener = recipeStepsClickListener;
@@ -42,7 +45,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
     @Override
     public void onBindViewHolder(RecyclerViewHolderStepCard holder, int position) {
         holder.mStepTextView.setText(mStep.get(position).getShortDescription());
-        if (!mStep.get(position).getThumbnailURL().isEmpty() && !mStep.get(position).getThumbnailURL().contains("mp4")) {
+        if (!TextUtils.isEmpty(mStep.get(position).getThumbnailURL()) && !mStep.get(position).getThumbnailURL().contains("mp4")) {
+            // if (!mStep.get(position).getThumbnailURL().isEmpty() && !mStep.get(position).getThumbnailURL().contains("mp4")) {
             Picasso.with(mContext).load(mStep.get(position).getThumbnailURL()).into(holder.mThumbnail);
         } else {
             Picasso.with(mContext).load(DEFAULT_THUMBNAIL).into(holder.mThumbnail);
@@ -52,7 +56,8 @@ public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "getItemCount Called. Size is:" + mStep.size());
+        //Timber.i( "getItemCount Called. Size is:" + mStep.size());
+        Timber.i("getItemCount Called. Size is:" + mStep.size());
         return mStep.size();
     }
 

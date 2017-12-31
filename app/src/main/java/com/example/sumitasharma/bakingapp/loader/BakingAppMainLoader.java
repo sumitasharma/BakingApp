@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 import static android.content.ContentValues.TAG;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 
@@ -28,7 +30,7 @@ public class BakingAppMainLoader extends AsyncTaskLoader<String> {
         this.mContext = context;
         this.mRecipe = recipes;
         this.mAsyncResponse = asyncResponse;
-        //Log.i(TAG, "Constructor called. BakingLoader called");
+        //Timber.i( "Constructor called. BakingLoader called");
     }
 
 
@@ -44,14 +46,14 @@ public class BakingAppMainLoader extends AsyncTaskLoader<String> {
      */
     private void onPostExecuteLoading(ArrayList<Recipe> recipes) {
 
-        //Log.i(TAG, "Post Execute Function... Baking App");
+        //Timber.i( "Post Execute Function... Baking App");
         if (recipes != null) {
-            Log.i(TAG, "Baking App.... onPostExecute. Recipe not null");
+            Timber.i("Baking App.... onPostExecute. Recipe not null");
             mRecipe = recipes;
             mAsyncResponse.processFinish(mRecipe);
 
         } else {
-            Log.i(TAG, "Post Execute Function. Recipe details null");
+            Timber.i("Post Execute Function. Recipe details null");
         }
     }
 

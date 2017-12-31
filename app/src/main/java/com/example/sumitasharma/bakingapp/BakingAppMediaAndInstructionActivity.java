@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.example.sumitasharma.bakingapp.fragments.StepVideoAndInstructionFragment;
 import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
@@ -35,28 +37,29 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
 
 
-            //Log.i(TAG, "Title is : " + mStep.get(mIndex).getShortDescription());
+            //Timber.i( "Title is : " + mStep.get(mIndex).getShortDescription());
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(mStepInstruction);
             }
-            //Log.i(TAG, "Index value from onCreate, savedInstance not null, Media Activity" + mIndex);
+            //Timber.i( "Index value from onCreate, savedInstance not null, Media Activity" + mIndex);
         } else {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
-                //Log.i(TAG, "onCreate: Bundle is not null");
+                //Timber.i( "onCreate: Bundle is not null");
                 mStep = bundle.getParcelableArrayList(STEPS);
                 mIndex = bundle.getInt(INDEX_VALUE);
-                //Log.i(TAG, "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
+                //Timber.i( "onCreate: Got mStep Description :" + mStep.get(mIndex).getShortDescription());
                 if (mStep != null) {
                     mTitle = mStep.get(mIndex).getShortDescription();
                 }
 
             } else {
-                Log.i(TAG, "onCreate: Bundle is null");
+                Timber.i("onCreate: Bundle is null");
             }
             if (mStep != null) {
                 mStepInstruction = mStep.get(mIndex).getDescription();
-                if (mStepInstruction.isEmpty())
+                if (TextUtils.isEmpty(mStepInstruction))
+                    // if (mStepInstruction.isEmpty())
                     getSupportActionBar().setTitle(mTitle);
                 else
                     getSupportActionBar().setTitle(mStepInstruction);
@@ -69,7 +72,7 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
             args.putString(STEP_DESCRIPTION, mStepInstruction);
             args.putString(STEP_VIDEO, mVideoURL);
             args.putInt(INDEX_VALUE, mIndex);
-            //Log.i(TAG, "Inside recipe ingredient step video instruction detail : " + mStepInstruction);
+            //Timber.i( "Inside recipe ingredient step video instruction detail : " + mStepInstruction);
             StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
             stepVideoAndInstructionFragment.setArguments(args);
             // Add the fragment to its container using a FragmentManager and a Transaction
@@ -96,6 +99,6 @@ public class BakingAppMediaAndInstructionActivity extends AppCompatActivity impl
         this.mStep = stepArrayList;
         this.mIndex = index;
         this.mVideoURL = videoURL;
-        //Log.i(TAG, "Index value received from Interface sendPassSavedInstanceState on activity: " + mIndex);
+        //Timber.i( "Index value received from Interface sendPassSavedInstanceState on activity: " + mIndex);
     }
 }

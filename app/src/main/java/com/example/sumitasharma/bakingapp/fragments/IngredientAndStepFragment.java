@@ -2,16 +2,17 @@ package com.example.sumitasharma.bakingapp.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sumitasharma.bakingapp.R;
 import com.example.sumitasharma.bakingapp.adapter.RecipeStepsAdapter;
@@ -28,6 +28,10 @@ import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.CURRENT_EXPANDED_POSITION;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.CURRENT_POSITION_RECYCLER_VIEW;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.KEY_INGREDIENT;
@@ -52,6 +56,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     private RecyclerView mBakingDetailAppRecyclerView;
     private int mCurrentVisiblePosition = 0;
     private int mAppBarLayoutExpanded;
+    private View rootView;
     //private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
@@ -64,12 +69,13 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View rootView = inflater.inflate(R.layout.ingredients_and_step_fragment, container, false);
+        rootView = inflater.inflate(R.layout.ingredients_and_step_fragment, container, false);
         ArrayList<Ingredient> mIngredient = getArguments().getParcelableArrayList(KEY_INGREDIENT);
         mStep = getArguments().getParcelableArrayList(STEPS);
         mTwoPane = getArguments().getBoolean(IS_TABLET);
         mTitle = getArguments().getString(TITLE);
 
+        // This fragment has appBarLayout which need to be checked for its expanded form for onSavedInstanceState
         AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -164,7 +170,7 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
             ingredientsTableLayout.addView(ingredientTableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
+            Timber.i("recipe ingredient : " + ingredient.getIngredient());
         }
         mBakingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
         mBakingDetailAppRecyclerView.setHasFixedSize(true);
@@ -172,14 +178,14 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         mBakingDetailAppRecyclerView.setLayoutManager(linearLayoutManager);
 
         if (savedInstanceState != null) {
-            mCurrentVisiblePosition = savedInstanceState.getInt("current_position_recycler_view");
-            mAppBarLayoutExpanded = savedInstanceState.getInt("current_expanded_position_appBarLayout");
+            mCurrentVisiblePosition = savedInstanceState.getInt(CURRENT_POSITION_RECYCLER_VIEW);
+            mAppBarLayoutExpanded = savedInstanceState.getInt(CURRENT_EXPANDED_POSITION);
             if (mAppBarLayoutExpanded == 1) {
                 appBarLayout.setExpanded(false);
             } else
                 appBarLayout.setExpanded(true);
             (mBakingDetailAppRecyclerView.getLayoutManager()).scrollToPosition(mCurrentVisiblePosition);
-            Log.i(TAG, "mCurrentPosition onRestoreSavedInstance" + mCurrentVisiblePosition);
+            Timber.i("mCurrentPosition onRestoreSavedInstance" + mCurrentVisiblePosition);
             savedInstanceState.clear();
         } else {
             appBarLayout.setExpanded(true);
@@ -195,19 +201,19 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         super.onAttach(context);
         Activity activity = getActivity();
         mContext = context;
-        Log.i(TAG, "onAttach Called : " + activity);
+        Timber.i("onAttach Called : " + activity);
         try {
             mCallback = (onStepClickedListener) context;
             mPutTheDataToActivity = (PutTheDataInActivity) context;
         } catch (ClassCastException e) {
-            Log.i(TAG, "implement onStepClickedListener");
+            Timber.i("implement onStepClickedListener");
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "Title on resume is :" + mTitle);
+        Timber.i("Title on resume is :" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
 
     }
@@ -216,10 +222,6 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
-//        mCurrentVisiblePosition = savedInstanceState.getInt("current_position_recycler_view");
-//        ( mBakingDetailAppRecyclerView.getLayoutManager()).scrollToPosition(mCurrentVisiblePosition);
-//        Log.i(TAG,"mCurrentPosition onRestoreSavedInstance"+mCurrentVisiblePosition);
-        // mCurrentVisiblePosition = 0;
     }
 
     @Override
@@ -228,16 +230,11 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         outState.putParcelableArrayList(STEPS, mStep);
         outState.putBoolean(IS_TABLET, mTwoPane);
         outState.putString(TITLE, mTitle);
-
-//        Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
-//        Log.i(TAG, "TwoPane value got from onSaveInstanceState:" + mTwoPane);
-//        Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
         mCurrentVisiblePosition = ((LinearLayoutManager) mBakingDetailAppRecyclerView.getLayoutManager())
                 .findFirstCompletelyVisibleItemPosition();
-        Log.i(TAG, "mCurrentPosition onSaveSavedInstance" + mCurrentVisiblePosition);
-        outState.putInt("current_position_recycler_view", mCurrentVisiblePosition);
-        outState.putInt("current_expanded_position_appBarLayout", mAppBarLayoutExpanded);
+        outState.putInt(CURRENT_POSITION_RECYCLER_VIEW, mCurrentVisiblePosition);
+        outState.putInt(CURRENT_EXPANDED_POSITION, mAppBarLayoutExpanded);
 
     }
 
@@ -245,7 +242,12 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     @Override
     public void onClickStepCard(int stepCardPosition, ArrayList<Step> stepArrayList) {
         if (!isOnline(mContext)) {
-            Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
+            Snackbar snackbar = Snackbar.make(rootView.findViewById(R.id.myCoordinatorLayout), R.string.internet_connectivity,
+                    Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(Color.BLUE);
+            // Toast.makeText(mContext, "Kindly check your Internet Connectivity", Toast.LENGTH_LONG).show();
         } else {
             mIndex = stepCardPosition;
             mCallback.onStepClickSelected(stepCardPosition, stepArrayList, mTwoPane);

@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/myCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:background="@drawable/baking_app_image"
-        android:backgroundTint="#90FFFFFF"
-        android:backgroundTintMode="src_over">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapse_toolbar"
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorAccent"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="58dp"
-            app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            app:title="Steps">
+            android:layout_height="500dp"
+            android:background="@drawable/baking_app_image"
+            android:backgroundTint="#90FFFFFF"
+            android:backgroundTintMode="src_over">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_id"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin">
-
-
-            </android.support.v7.widget.Toolbar>
-
-            <TableLayout
-                android:id="@+id/ingredients_table_layout"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapse_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:stretchColumns="0,1,2">
-            </TableLayout>
+                app:contentScrim="?attr/colorAccent"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="58dp"
+                app:layout_scrollFlags="exitUntilCollapsed|scroll"
+                app:title="Steps">
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/recipe_steps_nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recipe_steps_recycler_view"
+                </android.support.v7.widget.Toolbar>
+
+                <TableLayout
+                    android:id="@+id/ingredients_table_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:stretchColumns="0,1,2"></TableLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/recipe_steps_nested_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.NestedScrollView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recipe_steps_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </android.support.design.widget.CoordinatorLayout>
-
-

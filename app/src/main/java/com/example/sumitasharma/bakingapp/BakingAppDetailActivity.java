@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.sumitasharma.bakingapp.fragments.IngredientAndStepFragment;
 import com.example.sumitasharma.bakingapp.fragments.StepVideoAndInstructionFragment;
@@ -13,6 +12,8 @@ import com.example.sumitasharma.bakingapp.utils.Recipe;
 import com.example.sumitasharma.bakingapp.utils.Step;
 
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
@@ -51,17 +52,20 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
         //Checking if it is a tablet
         mTwoPane = findViewById(R.id.recipe_tablet_linear_layout) != null;
         if (savedInstanceState != null) {
-            Log.i(TAG, "SavedInstance state is not null, Getting data from SavedInstanceState");
+            // Timber.i( "SavedInstance state is not null, Getting data from SavedInstanceState");
+            Timber.i("SavedInstance state is not null, Getting data from SavedInstanceState");
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mStep = savedInstanceState.getParcelableArrayList(STEPS);
             mTitle = savedInstanceState.getString(TITLE);
         } else {
-            Log.i(TAG, "Bundle is not null, Getting data from bundle");
+            //  Timber.i( "Bundle is not null, Getting data from bundle");
+            Timber.i("Bundle is not null, Getting data from bundle");
             if (bundle != null) {
                 mRecipe = bundle.getParcelable(RECIPE_OBJECT);
                 if (mRecipe != null) {
                     mTitle = mRecipe.getName();
-                    Log.i(TAG, "Title Received in BakingAppDetailActivity:" + mTitle);
+                    //Timber.i( "Title Received in BakingAppDetailActivity:" + mTitle);
+                    Timber.i("Title Received in BakingAppDetailActivity:" + mTitle);
                     mTwoPaneTitle = mRecipe.getName();
                     mStep = mRecipe.getSteps();
                 }
@@ -101,27 +105,27 @@ public class BakingAppDetailActivity extends AppCompatActivity implements Ingred
 
     @Override
     public void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane) {
-        Log.i(TAG, "Inside onStepClickSelected Interface defined in Fragment called");
+        Timber.i("Inside onStepClickSelected Interface defined in Fragment called");
         this.mIndex = stepCardPosition;
         this.mStep = stepArrayList;
         this.mTwoPane = twopane;
         if (!twopane) {
-            //Log.i(TAG, "Found Phone, starting new activity, mIndex" + stepCardPosition);
+            //Timber.i( "Found Phone, starting new activity, mIndex" + stepCardPosition);
             Intent intent = new Intent();
             intent.setClass(this, BakingAppMediaAndInstructionActivity.class);
             Bundle args = new Bundle();
-            //Log.i(TAG, "onStepClickSelected: Sending mStep Description :" + mStep.get(0).getDescription());
+            //Timber.i( "onStepClickSelected: Sending mStep Description :" + mStep.get(0).getDescription());
             args.putParcelableArrayList(STEPS, mStep);
             args.putInt(INDEX_VALUE, stepCardPosition);
             intent.putExtras(args);
             startActivity(intent);
         } else {
-            //Log.i(TAG, "Found Tablet, sending data to fragment, ,mIndex" + mIndex);
+            //Timber.i( "Found Tablet, sending data to fragment, ,mIndex" + mIndex);
             //getFragmentManager().getFragment("","")
 
             StepVideoAndInstructionFragment stepVideoAndInstructionFragment = new StepVideoAndInstructionFragment();
             Bundle argsForStepVideoAndInstructionFragment = new Bundle();
-            //Log.i(TAG, "Index value from onStepClickSelected :" + mIndex);
+            //Timber.i( "Index value from onStepClickSelected :" + mIndex);
             argsForStepVideoAndInstructionFragment.putInt(INDEX_VALUE, mIndex);
             argsForStepVideoAndInstructionFragment.putParcelableArrayList(STEPS, mStep);
             // mTwoPane is expected true
