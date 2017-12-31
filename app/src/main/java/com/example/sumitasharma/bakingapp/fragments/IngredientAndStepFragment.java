@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 public class IngredientAndStepFragment extends Fragment implements RecipeStepsAdapter.RecipeStepsClickListener {
 
     private static final String TAG = IngredientAndStepFragment.class.getSimpleName();
+    AppBarLayout appBarLayout;
     //public BakingAppMediaAndInstructionActivity activity;
     //Activity mActivity;
     private PutTheDataInActivity mPutTheDataToActivity;
@@ -47,6 +49,9 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     private String mTitle;
     private onStepClickedListener mCallback;
     private ArrayList<Step> mStep = null;
+    private RecyclerView mBakingDetailAppRecyclerView;
+    private int mCurrentVisiblePosition = 0;
+    private int mAppBarLayoutExpanded;
     //private Recipe mRecipe = null;
 
     public IngredientAndStepFragment() {
@@ -65,6 +70,22 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         mTwoPane = getArguments().getBoolean(IS_TABLET);
         mTitle = getArguments().getString(TITLE);
 
+        AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.app_bar);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset) == appBarLayout.getTotalScrollRange()) {
+                    // Collapsed
+                    mAppBarLayoutExpanded = 1;
+                } else if (verticalOffset == 0) {
+                    // Expanded
+                    mAppBarLayoutExpanded = 2;
+                } else {
+                    // Somewhere in between
+                    mAppBarLayoutExpanded = 3;
+                }
+            }
+        });
         // Programmatically setting the TableLayout
         TableLayout ingredientsTableLayout = (TableLayout) rootView.findViewById(R.id.ingredients_table_layout);
         TableRow ingredientTitleRow = new TableRow(mContext);
@@ -145,11 +166,26 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
 
             Log.i(TAG, "recipe ingredient : " + ingredient.getIngredient());
         }
-        RecyclerView backingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
-        backingDetailAppRecyclerView.setHasFixedSize(true);
-        backingDetailAppRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mBakingDetailAppRecyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_steps_recycler_view);
+        mBakingDetailAppRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+        mBakingDetailAppRecyclerView.setLayoutManager(linearLayoutManager);
+
+        if (savedInstanceState != null) {
+            mCurrentVisiblePosition = savedInstanceState.getInt("current_position_recycler_view");
+            mAppBarLayoutExpanded = savedInstanceState.getInt("current_expanded_position_appBarLayout");
+            if (mAppBarLayoutExpanded == 1) {
+                appBarLayout.setExpanded(false);
+            } else
+                appBarLayout.setExpanded(true);
+            (mBakingDetailAppRecyclerView.getLayoutManager()).scrollToPosition(mCurrentVisiblePosition);
+            Log.i(TAG, "mCurrentPosition onRestoreSavedInstance" + mCurrentVisiblePosition);
+            savedInstanceState.clear();
+        } else {
+            appBarLayout.setExpanded(true);
+        }
         RecipeStepsAdapter recipeStepsAdapter = new RecipeStepsAdapter(mContext, this, mStep);
-        backingDetailAppRecyclerView.setAdapter(recipeStepsAdapter);
+        mBakingDetailAppRecyclerView.setAdapter(recipeStepsAdapter);
 
         return rootView;
     }
@@ -180,6 +216,10 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
+//        mCurrentVisiblePosition = savedInstanceState.getInt("current_position_recycler_view");
+//        ( mBakingDetailAppRecyclerView.getLayoutManager()).scrollToPosition(mCurrentVisiblePosition);
+//        Log.i(TAG,"mCurrentPosition onRestoreSavedInstance"+mCurrentVisiblePosition);
+        // mCurrentVisiblePosition = 0;
     }
 
     @Override
@@ -188,10 +228,17 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         outState.putParcelableArrayList(STEPS, mStep);
         outState.putBoolean(IS_TABLET, mTwoPane);
         outState.putString(TITLE, mTitle);
+
 //        Log.i(TAG, "Index value in onSaveInstanceState :" + mIndex);
 //        Log.i(TAG, "TwoPane value got from onSaveInstanceState:" + mTwoPane);
 //        Log.i(TAG, "mTitle value in onSaveInstance:" + mTitle);
         mPutTheDataToActivity.giveTheDataToActivity(mTitle, mStep, mIndex);
+        mCurrentVisiblePosition = ((LinearLayoutManager) mBakingDetailAppRecyclerView.getLayoutManager())
+                .findFirstCompletelyVisibleItemPosition();
+        Log.i(TAG, "mCurrentPosition onSaveSavedInstance" + mCurrentVisiblePosition);
+        outState.putInt("current_position_recycler_view", mCurrentVisiblePosition);
+        outState.putInt("current_expanded_position_appBarLayout", mAppBarLayoutExpanded);
+
     }
 
 
@@ -205,6 +252,11 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
 
     public interface onStepClickedListener {
         void onStepClickSelected(int stepCardPosition, ArrayList<Step> stepArrayList, boolean twopane);
@@ -213,6 +265,5 @@ public class IngredientAndStepFragment extends Fragment implements RecipeStepsAd
     public interface PutTheDataInActivity {
         void giveTheDataToActivity(String title, ArrayList<Step> stepArrayList, int index);
     }
-
 }
 

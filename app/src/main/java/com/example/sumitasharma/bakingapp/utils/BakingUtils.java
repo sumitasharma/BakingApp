@@ -23,8 +23,10 @@ import java.util.Scanner;
 public class BakingUtils {
     //public static final String RECIPE_ID = "recipe_id";
     public static final String TITLE = "title";
-    public static final String RECIPE_OBJECT = "RECIPE_OBJECT";
-    public static final String WIDGET_RECIPE_OBJECT = "WIDGET_RECIPE_OBJECT";
+    public static final String RECIPE_OBJECT = "recipe_object";
+    public static final String WIDGET_RECIPE_OBJECT = "widget_recipe_object";
+    public static final String PLAYER_POSITION = "player_position";
+    public static final String SAVED_LAYOUT_MANAGER = "saved_layout_manager";
     public static final String DEFAULT_THUMBNAIL = "https://membership.cyberlink.com/prog/learning-center/img/thumbnail-play-button.png";
     public static final String INDEX_VALUE = "index_value";
     public static final String STEPS = "steps";

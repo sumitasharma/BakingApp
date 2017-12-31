@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.INDEX_VALUE;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.IS_TABLET;
+import static com.example.sumitasharma.bakingapp.utils.BakingUtils.PLAYER_POSITION;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEPS;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.STEP_VIDEO;
 import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
@@ -53,7 +54,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
     private SimpleExoPlayerView mStepVideoPlayerView;
     private TextView mVideoNotAvailableText;
     private boolean mTwoPane;
-
+    private long playerPosition;
     public StepVideoAndInstructionFragment() {
 
     }
@@ -73,6 +74,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
             //mVideo = savedInstanceState.getString(STEP_VIDEO);
             mIndex = savedInstanceState.getInt(INDEX_VALUE);
             mTwoPane = savedInstanceState.getBoolean(IS_TABLET);
+            mPlaybackPosition = savedInstanceState.getLong(PLAYER_POSITION);
         } else {
             // Data is coming from arguments passed from the activity it is attached to -
             // BakingAppMediaAndInstructionActivity(phone) or BakingAppDetailActivity(tablet)
@@ -268,6 +270,9 @@ public class StepVideoAndInstructionFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        if (!mStep.get(mIndex).getVideoURL().isEmpty()) {
+            mPlaybackPosition = mStepVideoPlayer.getCurrentPosition();
+        }
         // Saving last displayed data. mIndex would increase or decrease on next or prev button
         // respectively, hence keeping mIndex inbound.
         if (mIndex >= mStep.size() - 1)
@@ -278,6 +283,7 @@ public class StepVideoAndInstructionFragment extends Fragment {
         outState.putParcelableArrayList(STEPS, mStep);
         outState.putString(STEP_VIDEO, mVideo);
         outState.putBoolean(IS_TABLET, mTwoPane);
+        outState.putLong(PLAYER_POSITION, mPlaybackPosition);
         mPassTitle.sendTitleForActionBar(mStep.get(mIndex).getShortDescription());
     }
 

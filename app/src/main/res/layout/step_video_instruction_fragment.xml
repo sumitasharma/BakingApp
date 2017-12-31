@@ -62,6 +62,7 @@
                 android:id="@+id/prev_step"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:text="@string/prev_step"
                 android:textSize="15sp" />
@@ -71,6 +72,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:text="@string/next_step"
                 android:textSize="15sp" />
         </RelativeLayout>

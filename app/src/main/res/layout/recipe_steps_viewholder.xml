@@ -18,6 +18,7 @@
             android:id="@+id/recipe_step_text_view_holder"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:gravity="center_vertical"
             android:maxLines="2"
@@ -31,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:contentDescription="@null" />
 
