@@ -9,3 +9,9 @@ In this Project I have included :
 * Once the app runs, a widget would be added which on bringing it to main screen displays the ingredients of a random recipe. Clicking on which will display and play the respective recipe.
 * Exoplayer to display videos of the cooking steps.
 * I have used a couple of libraries in my app too.
+** Installation
+Clone the GitHub repository.
+
+$ git clone https://github.com/sumitasharma/BakingApp.git
+## License
+Lincensed under [Apache License](LICENSE)
