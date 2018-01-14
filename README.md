@@ -11,5 +11,9 @@ In this Project I have included :
 * I have used a couple of libraries in my app too.
 ## Installation
 Clone the GitHub repository.
-
+```
 $ git clone https://github.com/sumitasharma/BakingApp.git
+```
+## Application Preview
+![Baking App Phone View](BakingAppPhone.gif) | ![Baking App Tablet View](BakingAppTablet.gif) | ![Baking App Widget View](BakingAppWidget.gif)
+
