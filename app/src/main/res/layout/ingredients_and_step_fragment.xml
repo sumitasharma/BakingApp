@@ -26,7 +26,7 @@
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="58dp"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll"
-                app:title="Steps">
+                app:title="@string/steps">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar_id"
@@ -41,7 +41,9 @@
                     android:id="@+id/ingredients_table_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:stretchColumns="0,1,2"></TableLayout>
+                    android:stretchColumns="0,1,2">
+
+                </TableLayout>
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
