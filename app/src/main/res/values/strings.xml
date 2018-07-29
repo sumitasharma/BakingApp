@@ -12,6 +12,7 @@
     <string name="internet_connectivity">Kindly check your Internet Connectivity</string>
     <string name="steps">Steps</string>
     <string name="label_for_ingredient_and_steps">Ingredients And Steps to Follow</string>
+    <string name="label_for_video_and_instruction">Video and Instruction</string>
 </resources>
 
 

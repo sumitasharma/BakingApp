@@ -32,7 +32,7 @@
         </activity>
         <activity
             android:name=".BakingAppMediaAndInstructionActivity"
-            android:label="Video and Instruction"
+            android:label="@string/label_for_video_and_instruction"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
