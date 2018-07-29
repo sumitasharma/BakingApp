@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BakingApp.iml" filepath="$PROJECT_DIR$/BakingApp.iml" />
+      <module fileurl="file://C:\Projects\August2018\BakingApp\BakingApp.iml" filepath="C:\Projects\August2018\BakingApp\BakingApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Projects\August2018\BakingApp\app\app.iml" filepath="C:\Projects\August2018\BakingApp\app\app.iml" />
     </modules>
   </component>
 </project>

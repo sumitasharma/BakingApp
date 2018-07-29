@@ -43,7 +43,7 @@ import static com.example.sumitasharma.bakingapp.utils.BakingUtils.isOnline;
 public class StepVideoAndInstructionFragment extends Fragment {
 
     private static final String TAG = StepVideoAndInstructionFragment.class.getSimpleName();
-    View rootView;
+    private View rootView;
     private PassTitle mPassTitle;
     private PassSavedInstanceState mPassSavedInstanceState;
     private Context mContext = getContext();
