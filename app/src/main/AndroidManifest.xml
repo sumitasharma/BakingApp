@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".BakingAppDetailActivity"
-            android:label="Ingredients And Steps to Follow"
+            android:label="@string/label_for_ingredient_and_steps"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

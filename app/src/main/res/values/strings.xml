@@ -11,6 +11,7 @@
     <string name="baking_main_view_image_description">Baking Recipes</string>
     <string name="internet_connectivity">Kindly check your Internet Connectivity</string>
     <string name="steps">Steps</string>
+    <string name="label_for_ingredient_and_steps">Ingredients And Steps to Follow</string>
 </resources>
 
 
